@@ -19,7 +19,7 @@ struct _2canny
 struct _2binary
 {
     bool _ifBinary = false;
-    double threshold = 0;
+    double threshold = 100;
     double max_value = 255;
     int threshold_type = 0;
 };

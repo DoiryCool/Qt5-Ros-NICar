@@ -280,7 +280,7 @@ void mainWindow::imageProChecked(void)
         qnode.img._binaryConfig._ifBinary = true;
         qnode.img._binaryConfig.threshold = ui->hs_2binary_threshold->value();
         qnode.img._binaryConfig.max_value = ui->hs_2binary_maxval->value();
-        qnode.img._binaryConfig.threshold_type = (ui->comba_2binary_type->currentIndex() == 5 ? 7 : ui->comba_2binary_type->currentIndex());
+        qnode.img._binaryConfig.threshold_type = ui->comba_2binary_type->currentIndex();
 
         ui->sb_2binary_threshold->setValue(ui->hs_2binary_threshold->value());
         ui->sb_2binary_maxval->setValue(ui->hs_2binary_maxval->value());

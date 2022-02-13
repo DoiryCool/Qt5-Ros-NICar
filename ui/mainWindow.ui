@@ -128,7 +128,7 @@ color: rgb(255, 255, 255);
      <enum>QTabWidget::East</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_con">
      <attribute name="title">
@@ -670,6 +670,9 @@ color: rgb(255, 255, 255);
             <property name="maximum">
              <number>255</number>
             </property>
+            <property name="value">
+             <number>100</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -699,7 +702,7 @@ color: rgb(255, 255, 255);
              <double>255.000000000000000</double>
             </property>
             <property name="value">
-             <double>0.000000000000000</double>
+             <double>100.000000000000000</double>
             </property>
            </widget>
           </item>

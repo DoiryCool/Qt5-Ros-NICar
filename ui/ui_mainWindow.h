@@ -455,6 +455,7 @@ public:
         sizePolicy1.setHeightForWidth(hs_2binary_threshold->sizePolicy().hasHeightForWidth());
         hs_2binary_threshold->setSizePolicy(sizePolicy1);
         hs_2binary_threshold->setMaximum(255);
+        hs_2binary_threshold->setValue(100);
         hs_2binary_threshold->setOrientation(Qt::Horizontal);
 
         gridLayout->addWidget(hs_2binary_threshold, 1, 2, 1, 1);
@@ -466,7 +467,7 @@ public:
         sb_2binary_threshold->setDecimals(2);
         sb_2binary_threshold->setMinimum(0.000000000000000);
         sb_2binary_threshold->setMaximum(255.000000000000000);
-        sb_2binary_threshold->setValue(0.000000000000000);
+        sb_2binary_threshold->setValue(100.000000000000000);
 
         gridLayout->addWidget(sb_2binary_threshold, 1, 1, 1, 1);
 
@@ -750,7 +751,7 @@ public:
         retranslateUi(MainWindow);
 
         tbw_main->setCurrentIndex(0);
-        tbw_sub->setCurrentIndex(0);
+        tbw_sub->setCurrentIndex(1);
         comba_imageTopics->setCurrentIndex(-1);
         comba_2binary_type->setCurrentIndex(0);
         comba_2canny_ks->setCurrentIndex(0);
