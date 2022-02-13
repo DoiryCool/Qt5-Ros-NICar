@@ -10,7 +10,7 @@
  * ******************************/
 struct _2canny
 {
-    bool _ifCanny = 0;
+    bool _ifCanny = false;
     double lowThreshold = 10;
     double highThreshold = 100;
     int Kernel_size = 3;
@@ -18,7 +18,7 @@ struct _2canny
 
 struct _2binary
 {
-    bool _ifBinary = 0;
+    bool _ifBinary = false;
     double threshold = 0;
     double max_value = 255;
     int threshold_type = 0;
@@ -26,7 +26,7 @@ struct _2binary
 
 struct imgConfig
 {
-    bool _grayConfig = 0;
+    bool _grayConfig = false;
     _2binary _binaryConfig;
     _2canny _cannyConfig;
 };

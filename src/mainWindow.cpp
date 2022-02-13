@@ -236,7 +236,9 @@ void mainWindow::bt_play_clicked(void)
     {
         ui->bt_playCam->setText("Cancel");
         qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
-    }else{
+    }
+    else
+    {
         qnode.sub_stop_image();
         ui->bt_playCam->setText("Play");
     }
@@ -278,7 +280,7 @@ void mainWindow::imageProChecked(void)
         qnode.img._binaryConfig._ifBinary = true;
         qnode.img._binaryConfig.threshold = ui->hs_2binary_threshold->value();
         qnode.img._binaryConfig.max_value = ui->hs_2binary_maxval->value();
-        qnode.img._binaryConfig.threshold_type = ui->comba_2binary_type->currentIndex() - 1;
+        qnode.img._binaryConfig.threshold_type = (ui->comba_2binary_type->currentIndex() == 5 ? 7 : ui->comba_2binary_type->currentIndex());
 
         ui->sb_2binary_threshold->setValue(ui->hs_2binary_threshold->value());
         ui->sb_2binary_maxval->setValue(ui->hs_2binary_maxval->value());

@@ -93,7 +93,8 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
         }
         if (img._binaryConfig._ifBinary == true)
         {
-            cv::threshold(des, des, img._binaryConfig.threshold, img._binaryConfig.max_value, img._binaryConfig.threshold_type);
+            cv::threshold(des, des, img._binaryConfig.threshold, img._binaryConfig.max_value, img._binaryConfig.threshold_type < 5?img._binaryConfig.threshold_type :8);
+            //emit sendInfoMes(QString::number(img._binaryConfig.threshold_type));
         }
         if (img._cannyConfig._ifCanny == true)
         {

@@ -354,13 +354,13 @@ public:
 
         gb_topicLists = new QGroupBox(gb_connections);
         gb_topicLists->setObjectName(QString::fromUtf8("gb_topicLists"));
-        gb_topicLists->setGeometry(QRect(0, 170, 459, 191));
+        gb_topicLists->setGeometry(QRect(0, 140, 459, 221));
         bt_refreshTopicsLists = new QPushButton(gb_topicLists);
         bt_refreshTopicsLists->setObjectName(QString::fromUtf8("bt_refreshTopicsLists"));
         bt_refreshTopicsLists->setGeometry(QRect(400, 0, 61, 21));
         lt_topics = new QListWidget(gb_topicLists);
         lt_topics->setObjectName(QString::fromUtf8("lt_topics"));
-        lt_topics->setGeometry(QRect(0, 20, 461, 171));
+        lt_topics->setGeometry(QRect(0, 20, 461, 201));
 
         verticalLayout_2->addWidget(gb_connections);
 
