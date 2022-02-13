@@ -35,6 +35,7 @@ mainWindow::mainWindow(void)
     QObject::connect(ui->cb_2gray, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
     QObject::connect(ui->cb_2binary, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
     QObject::connect(ui->cb_2canny, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
+    QObject::connect(ui->cb_enhancement, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
     QObject::connect(ui->hs_2binary_threshold, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
     QObject::connect(ui->hs_2binary_maxval, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
     QObject::connect(ui->comba_2binary_type, SIGNAL(currentTextChanged(QString)), this, SLOT(imageProChecked(void)));
@@ -302,5 +303,13 @@ void mainWindow::imageProChecked(void)
     else
     {
         qnode.img._cannyConfig._ifCanny = false;
+    }
+    if (ui->cb_enhancement->isChecked())
+    {
+       qnode.img._logEnhance = true;
+    }
+    else
+    {
+        qnode.img._logEnhance = false;
     }
 }

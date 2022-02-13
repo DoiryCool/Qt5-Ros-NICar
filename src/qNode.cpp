@@ -87,6 +87,10 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     {
         cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         des = cv_ptr->image;
+        if (img._logEnhance == true)
+        {
+            des = logEnhance(des);
+        }
         if (img._grayConfig == true)
         {
             cv::cvtColor(des, des, cv::COLOR_BGR2GRAY);
@@ -103,6 +107,7 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
         {
             cv::Canny(des, des, img._cannyConfig.lowThreshold, img._cannyConfig.highThreshold, img._cannyConfig.Kernel_size);
         }
+        
         QImage im = Mat2QImage(des);
         emit sendImage(im);
     }

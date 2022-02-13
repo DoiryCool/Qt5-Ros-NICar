@@ -18,7 +18,7 @@
 // std
 #include <string>
 // cv-utils
-#include "imagePro.h"
+#include "imagePro.hpp"
 
 struct imuVector
 {

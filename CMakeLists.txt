@@ -34,7 +34,7 @@ Network
 Widgets 
 )
 
-file(GLOB_RECURSE cxx_src "src/*.cpp" "include/*.h")
+file(GLOB_RECURSE cxx_src "src/*.cpp" "include/*.h" "include/*.hpp")
 
 include_directories(
 	${catkin_INCLUDE_DIRS}

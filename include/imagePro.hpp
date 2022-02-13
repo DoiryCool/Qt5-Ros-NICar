@@ -2,6 +2,7 @@
 #define __IMAGEPRO_H_
 
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include <QImage>
 
@@ -27,9 +28,17 @@ struct _2binary
 struct imgConfig
 {
     bool _grayConfig = false;
+    bool _logEnhance = false;
     _2binary _binaryConfig;
     _2canny _cannyConfig;
 };
+
+static bool saveImage(cv::Mat const &src, QString ruledName = "Picture")
+{
+    ruledName.append(".jpg");
+
+    cv::imwrite("", src);
+}
 
 static QImage Mat2QImage(cv::Mat const &src)
 {
@@ -89,5 +98,22 @@ static QImage Mat2QImage(cv::Mat const &src)
     }
 
     return dest;
+}
+
+static cv::Mat logEnhance(cv::Mat src)
+{
+    cv::Mat imageLog(src.size(), CV_32FC3);
+    for (int i = 0; i < src.rows; i++)
+    {
+        for (int j = 0; j < src.cols; j++)
+        {
+            imageLog.at<cv::Vec3f>(i, j)[0] = log(1 + src.at<cv::Vec3b>(i, j)[0]);
+            imageLog.at<cv::Vec3f>(i, j)[1] = log(1 + src.at<cv::Vec3b>(i, j)[1]);
+            imageLog.at<cv::Vec3f>(i, j)[2] = log(1 + src.at<cv::Vec3b>(i, j)[2]);
+        }
+    }
+    normalize(imageLog, imageLog, 0, 255, CV_MINMAX);
+    convertScaleAbs(imageLog, imageLog);
+    return imageLog;
 }
 #endif
