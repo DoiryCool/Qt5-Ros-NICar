@@ -51,15 +51,18 @@ private:
     ros::Subscriber imu_sub;
     ros::Subscriber temper_sub;
     image_transport::Subscriber image_sub;
+    cv_bridge::CvImagePtr cv_ptr;
+    cv::Mat des;
 
 public:
     qNode(void);
     ~qNode(void);
     bool nodeInit(const std::string &master_url, const std::string &host_url);
-    void subAndPubTopic();
+    void topicsManager();
     void run();
     // Images
     void sub_image(QString);
+    void sub_stop_image();
     void imageCallback(const sensor_msgs::ImageConstPtr &);
     // showTopics
     QMap<QString, QString> get_topic_list();

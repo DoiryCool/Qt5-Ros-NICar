@@ -23,24 +23,29 @@ bool qNode::nodeInit(const std::string &master_url, const std::string &host_url)
         return false;
     }
     ros::start();
-    ros::NodeHandle nh;
-    imu_sub = nh.subscribe<sensor_msgs::Imu>("imu/data", 1, &qNode::imuCallback, this);
-    temper_sub = nh.subscribe<sensor_msgs::Temperature>("temperature", 1, &qNode::tempCallback, this);
+    topicsManager();
     start();
     emit sendInfoMes("Connected to ROS!");
     return true;
 }
 
-void qNode::subAndPubTopic(void)
+void qNode::topicsManager(void)
 {
+    ros::NodeHandle nh;
+    imu_sub = nh.subscribe<sensor_msgs::Imu>("imu/data", 100, &qNode::imuCallback, this);
+    temper_sub = nh.subscribe<sensor_msgs::Temperature>("temperature", 100, &qNode::tempCallback, this);
 }
 
 void qNode::sub_image(QString top_name)
 {
     ros::NodeHandle n;
     image_transport::ImageTransport it_(n);
-    image_sub = it_.subscribe(top_name.toStdString(), 1, &qNode::imageCallback, this);
-    ros::spinOnce();
+    image_sub = it_.subscribe(top_name.toStdString(), 100, &qNode::imageCallback, this);
+}
+
+void qNode::sub_stop_image()
+{
+    image_sub.shutdown();
 }
 
 void qNode::run()
@@ -80,9 +85,7 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
     try
     {
-        cv_bridge::CvImagePtr cv_ptr =
-            cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-        cv::Mat des;
+        cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         des = cv_ptr->image;
         if (img._grayConfig == true)
         {

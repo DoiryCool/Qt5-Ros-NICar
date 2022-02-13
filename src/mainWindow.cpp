@@ -232,7 +232,14 @@ void mainWindow::updateImage(QImage img)
 
 void mainWindow::bt_play_clicked(void)
 {
-    qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
+    if (ui->bt_playCam->text() == "Play")
+    {
+        ui->bt_playCam->setText("Cancel");
+        qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
+    }else{
+        qnode.sub_stop_image();
+        ui->bt_playCam->setText("Play");
+    }
 }
 
 void mainWindow::updateImu(QVariant getData)
@@ -282,8 +289,8 @@ void mainWindow::imageProChecked(void)
     }
     if (ui->cb_2canny->isChecked())
     {
-        qnode.img._cannyConfig._ifCanny= true;
-        qnode.img._cannyConfig.lowThreshold= ui->hs_2canny_lt->value();
+        qnode.img._cannyConfig._ifCanny = true;
+        qnode.img._cannyConfig.lowThreshold = ui->hs_2canny_lt->value();
         qnode.img._cannyConfig.highThreshold = ui->hs_2canny_ht->value();
         qnode.img._cannyConfig.Kernel_size = ui->comba_2canny_ks->currentText().toInt();
 
