@@ -7,8 +7,12 @@
 #include <QImage>
 
 /*********************************
- *            Struct             *
- * ******************************/
+*             Struct             *
+*********************************/
+
+static QString __imgSaveDir = "/home/doiry/capImg/";
+static QString __imgSaveNameRule = "Image";
+
 struct _2canny
 {
     bool _ifCanny = false;
@@ -29,15 +33,16 @@ struct imgConfig
 {
     bool _grayConfig = false;
     bool _logEnhance = false;
+    bool _laplacian = false;
     _2binary _binaryConfig;
     _2canny _cannyConfig;
 };
 
-static bool saveImage(cv::Mat const &src, QString ruledName = "Picture")
+static bool saveImage(cv::Mat const &src)
 {
-    ruledName.append(".jpg");
-
-    cv::imwrite("", src);
+    __imgSaveDir.append(__imgSaveNameRule);
+    __imgSaveDir.append(".jpg");
+    return cv::imwrite(__imgSaveDir.toStdString(), src);
 }
 
 static QImage Mat2QImage(cv::Mat const &src)
@@ -116,4 +121,11 @@ static cv::Mat logEnhance(cv::Mat src)
     convertScaleAbs(imageLog, imageLog);
     return imageLog;
 }
+static cv::Mat Laplacian(cv::Mat src)
+{  
+    cv::Mat LaplacianImg;  
+    cv::Mat kernel = (cv::Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);  
+    filter2D(src, LaplacianImg, CV_8UC3, kernel);  
+    return LaplacianImg;
+}  
 #endif

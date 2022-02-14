@@ -39,7 +39,7 @@
         <x>0</x>
         <y>0</y>
         <width>581</width>
-        <height>401</height>
+        <height>371</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -56,6 +56,69 @@ color: rgb(255, 255, 255);
       <property name="alignment">
        <set>Qt::AlignCenter</set>
       </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>370</y>
+        <width>581</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QComboBox" name="comba_imageTopics">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="currentText">
+          <string/>
+         </property>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="bt_playCam">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Play</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="bt_saveImg">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="tb_rviz">
@@ -449,71 +512,11 @@ color: rgb(255, 255, 255);
      <attribute name="title">
       <string>Image</string>
      </attribute>
-     <widget class="QGroupBox" name="groupBox_5">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>0</y>
-        <width>481</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="title">
-       <string>Camera</string>
-      </property>
-      <widget class="QWidget" name="layoutWidget_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>20</y>
-         <width>481</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QComboBox" name="comba_imageTopics">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="currentText">
-           <string/>
-          </property>
-          <property name="currentIndex">
-           <number>-1</number>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="bt_playCam">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Play</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </widget>
      <widget class="QWidget" name="layoutWidget_3">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>60</y>
+        <y>10</y>
         <width>481</width>
         <height>31</height>
        </rect>
@@ -625,13 +628,6 @@ p, li { white-space: pre-wrap; }
            <widget class="QCheckBox" name="cb_2gray">
             <property name="text">
              <string>2Gray</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="cb_enhancement">
-            <property name="text">
-             <string>Enhancement</string>
             </property>
            </widget>
           </item>
@@ -1053,6 +1049,32 @@ p, li { white-space: pre-wrap; }
         </item>
        </layout>
       </widget>
+      <widget class="QCheckBox" name="cb_enhancement">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>30</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>NightBoost</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="cb_laplacian">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>60</y>
+         <width>101</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Laplacian</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_pointSet">
@@ -1344,7 +1366,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">reserved by gujunwei email:jerrygu.gjw@gmail.com</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -1355,7 +1377,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_6"/>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>

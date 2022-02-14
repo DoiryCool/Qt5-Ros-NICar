@@ -17,6 +17,7 @@
 #include "socketCommunication.h"
 #include "../ui/ui_mainWindow.h"
 #include "qNode.h"
+#include "imagePro.hpp"
 
 using std::ifstream;
 
@@ -73,12 +74,13 @@ public slots:
     void updateImage(QImage);
     void bt_play_clicked(void);
     //topicLists
-    void refreshTopLists(void);
+    void slot_bt_refreshTop_clicked(void);
     //orientation
     void updateImu(QVariant);
     void updateTemperature(QString);
     //imagePro
-    void imageProChecked(void);
+    void slot_imageProChecked(void);
+    void slot_bt_saveImg_clicked(void);
 
 signals:
 

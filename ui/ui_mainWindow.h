@@ -41,6 +41,11 @@ public:
     QTabWidget *tbw_main;
     QWidget *tb_camera;
     QLabel *lb_camImage;
+    QWidget *layoutWidget_2;
+    QHBoxLayout *horizontalLayout_5;
+    QComboBox *comba_imageTopics;
+    QPushButton *bt_playCam;
+    QPushButton *bt_saveImg;
     QWidget *tb_rviz;
     QTextBrowser *tx_showInfo;
     QWidget *horizontalLayoutWidget_2;
@@ -80,11 +85,6 @@ public:
     QPushButton *bt_refreshTopicsLists;
     QListWidget *lt_topics;
     QWidget *tab_image;
-    QGroupBox *groupBox_5;
-    QWidget *layoutWidget_2;
-    QHBoxLayout *horizontalLayout_5;
-    QComboBox *comba_imageTopics;
-    QPushButton *bt_playCam;
     QWidget *layoutWidget_3;
     QHBoxLayout *horizontalLayout_8;
     QLineEdit *li_saveNameRule;
@@ -97,7 +97,6 @@ public:
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_9;
     QCheckBox *cb_2gray;
-    QCheckBox *cb_enhancement;
     QVBoxLayout *verticalLayout_3;
     QGridLayout *gridLayout;
     QComboBox *comba_2binary_type;
@@ -119,6 +118,8 @@ public:
     QDoubleSpinBox *sb_2canny_lt;
     QSlider *hs_2canny_lt;
     QComboBox *comba_2canny_ks;
+    QCheckBox *cb_enhancement;
+    QCheckBox *cb_laplacian;
     QWidget *tab_pointSet;
     QGroupBox *gb_baseInfo;
     QGroupBox *groupBox;
@@ -151,9 +152,9 @@ public:
     QLabel *lb_angel_z;
     QLineEdit *li_angle_z;
     QLabel *authersaid;
-    QWidget *widget;
+    QWidget *layoutWidget4;
     QVBoxLayout *verticalLayout_6;
-    QWidget *widget1;
+    QWidget *layoutWidget5;
     QVBoxLayout *verticalLayout_7;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -173,12 +174,51 @@ public:
         tb_camera->setObjectName(QString::fromUtf8("tb_camera"));
         lb_camImage = new QLabel(tb_camera);
         lb_camImage->setObjectName(QString::fromUtf8("lb_camImage"));
-        lb_camImage->setGeometry(QRect(0, 0, 581, 401));
+        lb_camImage->setGeometry(QRect(0, 0, 581, 371));
         lb_camImage->setStyleSheet(QString::fromUtf8("background-color:rgb(0, 0, 0);\n"
 "color: rgb(255, 255, 255);\n"
 ""));
         lb_camImage->setLineWidth(0);
         lb_camImage->setAlignment(Qt::AlignCenter);
+        layoutWidget_2 = new QWidget(tb_camera);
+        layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
+        layoutWidget_2->setGeometry(QRect(0, 370, 581, 31));
+        horizontalLayout_5 = new QHBoxLayout(layoutWidget_2);
+        horizontalLayout_5->setSpacing(0);
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
+        comba_imageTopics = new QComboBox(layoutWidget_2);
+        comba_imageTopics->setObjectName(QString::fromUtf8("comba_imageTopics"));
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(comba_imageTopics->sizePolicy().hasHeightForWidth());
+        comba_imageTopics->setSizePolicy(sizePolicy);
+
+        horizontalLayout_5->addWidget(comba_imageTopics);
+
+        bt_playCam = new QPushButton(layoutWidget_2);
+        bt_playCam->setObjectName(QString::fromUtf8("bt_playCam"));
+        bt_playCam->setEnabled(false);
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(bt_playCam->sizePolicy().hasHeightForWidth());
+        bt_playCam->setSizePolicy(sizePolicy1);
+
+        horizontalLayout_5->addWidget(bt_playCam);
+
+        bt_saveImg = new QPushButton(layoutWidget_2);
+        bt_saveImg->setObjectName(QString::fromUtf8("bt_saveImg"));
+        bt_saveImg->setEnabled(false);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Minimum);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(bt_saveImg->sizePolicy().hasHeightForWidth());
+        bt_saveImg->setSizePolicy(sizePolicy2);
+
+        horizontalLayout_5->addWidget(bt_saveImg);
+
         tbw_main->addTab(tb_camera, QString());
         tb_rviz = new QWidget();
         tb_rviz->setObjectName(QString::fromUtf8("tb_rviz"));
@@ -236,21 +276,21 @@ public:
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
         lb_ipAdd = new QLabel(layoutWidget1);
         lb_ipAdd->setObjectName(QString::fromUtf8("lb_ipAdd"));
-        QSizePolicy sizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(lb_ipAdd->sizePolicy().hasHeightForWidth());
-        lb_ipAdd->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Preferred);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(lb_ipAdd->sizePolicy().hasHeightForWidth());
+        lb_ipAdd->setSizePolicy(sizePolicy3);
 
         horizontalLayout_4->addWidget(lb_ipAdd);
 
         li_ipAdd = new QLineEdit(layoutWidget1);
         li_ipAdd->setObjectName(QString::fromUtf8("li_ipAdd"));
-        QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(li_ipAdd->sizePolicy().hasHeightForWidth());
-        li_ipAdd->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(li_ipAdd->sizePolicy().hasHeightForWidth());
+        li_ipAdd->setSizePolicy(sizePolicy4);
 
         horizontalLayout_4->addWidget(li_ipAdd);
 
@@ -260,21 +300,18 @@ public:
 
         lb_ipPort = new QLabel(layoutWidget1);
         lb_ipPort->setObjectName(QString::fromUtf8("lb_ipPort"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(lb_ipPort->sizePolicy().hasHeightForWidth());
-        lb_ipPort->setSizePolicy(sizePolicy2);
+        sizePolicy.setHeightForWidth(lb_ipPort->sizePolicy().hasHeightForWidth());
+        lb_ipPort->setSizePolicy(sizePolicy);
 
         horizontalLayout_4->addWidget(lb_ipPort);
 
         li_ipPort = new QLineEdit(layoutWidget1);
         li_ipPort->setObjectName(QString::fromUtf8("li_ipPort"));
-        QSizePolicy sizePolicy3(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(li_ipPort->sizePolicy().hasHeightForWidth());
-        li_ipPort->setSizePolicy(sizePolicy3);
+        QSizePolicy sizePolicy5(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(li_ipPort->sizePolicy().hasHeightForWidth());
+        li_ipPort->setSizePolicy(sizePolicy5);
         li_ipPort->setMaximumSize(QSize(51, 16777215));
 
         horizontalLayout_4->addWidget(li_ipPort);
@@ -294,11 +331,11 @@ public:
 
         bt_connectR = new QPushButton(layoutWidget1);
         bt_connectR->setObjectName(QString::fromUtf8("bt_connectR"));
-        QSizePolicy sizePolicy4(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(bt_connectR->sizePolicy().hasHeightForWidth());
-        bt_connectR->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy6(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(bt_connectR->sizePolicy().hasHeightForWidth());
+        bt_connectR->setSizePolicy(sizePolicy6);
         bt_connectR->setMaximumSize(QSize(90, 16777215));
 
         horizontalLayout->addWidget(bt_connectR);
@@ -309,8 +346,8 @@ public:
 
         bt_saveUrl = new QPushButton(layoutWidget1);
         bt_saveUrl->setObjectName(QString::fromUtf8("bt_saveUrl"));
-        sizePolicy4.setHeightForWidth(bt_saveUrl->sizePolicy().hasHeightForWidth());
-        bt_saveUrl->setSizePolicy(sizePolicy4);
+        sizePolicy6.setHeightForWidth(bt_saveUrl->sizePolicy().hasHeightForWidth());
+        bt_saveUrl->setSizePolicy(sizePolicy6);
         bt_saveUrl->setMaximumSize(QSize(90, 16777215));
 
         horizontalLayout->addWidget(bt_saveUrl);
@@ -381,72 +418,44 @@ public:
         tbw_sub->addTab(tab_con, QString());
         tab_image = new QWidget();
         tab_image->setObjectName(QString::fromUtf8("tab_image"));
-        groupBox_5 = new QGroupBox(tab_image);
-        groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
-        groupBox_5->setGeometry(QRect(10, 0, 481, 51));
-        layoutWidget_2 = new QWidget(groupBox_5);
-        layoutWidget_2->setObjectName(QString::fromUtf8("layoutWidget_2"));
-        layoutWidget_2->setGeometry(QRect(0, 20, 481, 31));
-        horizontalLayout_5 = new QHBoxLayout(layoutWidget_2);
-        horizontalLayout_5->setSpacing(0);
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
-        comba_imageTopics = new QComboBox(layoutWidget_2);
-        comba_imageTopics->setObjectName(QString::fromUtf8("comba_imageTopics"));
-        sizePolicy2.setHeightForWidth(comba_imageTopics->sizePolicy().hasHeightForWidth());
-        comba_imageTopics->setSizePolicy(sizePolicy2);
-
-        horizontalLayout_5->addWidget(comba_imageTopics);
-
-        bt_playCam = new QPushButton(layoutWidget_2);
-        bt_playCam->setObjectName(QString::fromUtf8("bt_playCam"));
-        bt_playCam->setEnabled(false);
-        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(bt_playCam->sizePolicy().hasHeightForWidth());
-        bt_playCam->setSizePolicy(sizePolicy5);
-
-        horizontalLayout_5->addWidget(bt_playCam);
-
         layoutWidget_3 = new QWidget(tab_image);
         layoutWidget_3->setObjectName(QString::fromUtf8("layoutWidget_3"));
-        layoutWidget_3->setGeometry(QRect(10, 60, 481, 31));
+        layoutWidget_3->setGeometry(QRect(10, 10, 481, 31));
         horizontalLayout_8 = new QHBoxLayout(layoutWidget_3);
         horizontalLayout_8->setSpacing(0);
         horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
         li_saveNameRule = new QLineEdit(layoutWidget_3);
         li_saveNameRule->setObjectName(QString::fromUtf8("li_saveNameRule"));
-        sizePolicy5.setHeightForWidth(li_saveNameRule->sizePolicy().hasHeightForWidth());
-        li_saveNameRule->setSizePolicy(sizePolicy5);
+        sizePolicy1.setHeightForWidth(li_saveNameRule->sizePolicy().hasHeightForWidth());
+        li_saveNameRule->setSizePolicy(sizePolicy1);
 
         horizontalLayout_8->addWidget(li_saveNameRule);
 
         bt_setSaveNameRule = new QPushButton(layoutWidget_3);
         bt_setSaveNameRule->setObjectName(QString::fromUtf8("bt_setSaveNameRule"));
         bt_setSaveNameRule->setEnabled(true);
-        QSizePolicy sizePolicy6(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(bt_setSaveNameRule->sizePolicy().hasHeightForWidth());
-        bt_setSaveNameRule->setSizePolicy(sizePolicy6);
+        QSizePolicy sizePolicy7(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(bt_setSaveNameRule->sizePolicy().hasHeightForWidth());
+        bt_setSaveNameRule->setSizePolicy(sizePolicy7);
 
         horizontalLayout_8->addWidget(bt_setSaveNameRule);
 
         tb_chooseSaveDir = new QTextBrowser(layoutWidget_3);
         tb_chooseSaveDir->setObjectName(QString::fromUtf8("tb_chooseSaveDir"));
         tb_chooseSaveDir->setEnabled(true);
-        sizePolicy1.setHeightForWidth(tb_chooseSaveDir->sizePolicy().hasHeightForWidth());
-        tb_chooseSaveDir->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(tb_chooseSaveDir->sizePolicy().hasHeightForWidth());
+        tb_chooseSaveDir->setSizePolicy(sizePolicy4);
 
         horizontalLayout_8->addWidget(tb_chooseSaveDir);
 
         bt_chooseSaveDir = new QPushButton(layoutWidget_3);
         bt_chooseSaveDir->setObjectName(QString::fromUtf8("bt_chooseSaveDir"));
         bt_chooseSaveDir->setEnabled(true);
-        sizePolicy6.setHeightForWidth(bt_chooseSaveDir->sizePolicy().hasHeightForWidth());
-        bt_chooseSaveDir->setSizePolicy(sizePolicy6);
+        sizePolicy7.setHeightForWidth(bt_chooseSaveDir->sizePolicy().hasHeightForWidth());
+        bt_chooseSaveDir->setSizePolicy(sizePolicy7);
 
         horizontalLayout_8->addWidget(bt_chooseSaveDir);
 
@@ -469,11 +478,6 @@ public:
 
         horizontalLayout_9->addWidget(cb_2gray);
 
-        cb_enhancement = new QCheckBox(layoutWidget2);
-        cb_enhancement->setObjectName(QString::fromUtf8("cb_enhancement"));
-
-        horizontalLayout_9->addWidget(cb_enhancement);
-
 
         verticalLayout_5->addLayout(horizontalLayout_9);
 
@@ -494,8 +498,8 @@ public:
 
         lb_2binary_threshold = new QLabel(layoutWidget2);
         lb_2binary_threshold->setObjectName(QString::fromUtf8("lb_2binary_threshold"));
-        sizePolicy.setHeightForWidth(lb_2binary_threshold->sizePolicy().hasHeightForWidth());
-        lb_2binary_threshold->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(lb_2binary_threshold->sizePolicy().hasHeightForWidth());
+        lb_2binary_threshold->setSizePolicy(sizePolicy3);
         lb_2binary_threshold->setMaximumSize(QSize(70, 16777215));
         lb_2binary_threshold->setAlignment(Qt::AlignCenter);
 
@@ -514,8 +518,8 @@ public:
 
         hs_2binary_threshold = new QSlider(layoutWidget2);
         hs_2binary_threshold->setObjectName(QString::fromUtf8("hs_2binary_threshold"));
-        sizePolicy1.setHeightForWidth(hs_2binary_threshold->sizePolicy().hasHeightForWidth());
-        hs_2binary_threshold->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(hs_2binary_threshold->sizePolicy().hasHeightForWidth());
+        hs_2binary_threshold->setSizePolicy(sizePolicy4);
         hs_2binary_threshold->setMaximum(255);
         hs_2binary_threshold->setValue(100);
         hs_2binary_threshold->setOrientation(Qt::Horizontal);
@@ -524,8 +528,8 @@ public:
 
         lb_2binary_maxval = new QLabel(layoutWidget2);
         lb_2binary_maxval->setObjectName(QString::fromUtf8("lb_2binary_maxval"));
-        sizePolicy5.setHeightForWidth(lb_2binary_maxval->sizePolicy().hasHeightForWidth());
-        lb_2binary_maxval->setSizePolicy(sizePolicy5);
+        sizePolicy1.setHeightForWidth(lb_2binary_maxval->sizePolicy().hasHeightForWidth());
+        lb_2binary_maxval->setSizePolicy(sizePolicy1);
         lb_2binary_maxval->setMaximumSize(QSize(70, 16777215));
         lb_2binary_maxval->setAlignment(Qt::AlignCenter);
 
@@ -541,8 +545,8 @@ public:
 
         hs_2binary_maxval = new QSlider(layoutWidget2);
         hs_2binary_maxval->setObjectName(QString::fromUtf8("hs_2binary_maxval"));
-        sizePolicy1.setHeightForWidth(hs_2binary_maxval->sizePolicy().hasHeightForWidth());
-        hs_2binary_maxval->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(hs_2binary_maxval->sizePolicy().hasHeightForWidth());
+        hs_2binary_maxval->setSizePolicy(sizePolicy4);
         hs_2binary_maxval->setMaximum(255);
         hs_2binary_maxval->setValue(255);
         hs_2binary_maxval->setOrientation(Qt::Horizontal);
@@ -572,8 +576,8 @@ public:
         gridLayout_2->setHorizontalSpacing(0);
         lb_2canny_ht = new QLabel(layoutWidget2);
         lb_2canny_ht->setObjectName(QString::fromUtf8("lb_2canny_ht"));
-        sizePolicy.setHeightForWidth(lb_2canny_ht->sizePolicy().hasHeightForWidth());
-        lb_2canny_ht->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(lb_2canny_ht->sizePolicy().hasHeightForWidth());
+        lb_2canny_ht->setSizePolicy(sizePolicy3);
         lb_2canny_ht->setMinimumSize(QSize(70, 0));
         lb_2canny_ht->setMaximumSize(QSize(70, 16777215));
         lb_2canny_ht->setAlignment(Qt::AlignCenter);
@@ -582,8 +586,8 @@ public:
 
         lb_2canny_ks = new QLabel(layoutWidget2);
         lb_2canny_ks->setObjectName(QString::fromUtf8("lb_2canny_ks"));
-        sizePolicy5.setHeightForWidth(lb_2canny_ks->sizePolicy().hasHeightForWidth());
-        lb_2canny_ks->setSizePolicy(sizePolicy5);
+        sizePolicy1.setHeightForWidth(lb_2canny_ks->sizePolicy().hasHeightForWidth());
+        lb_2canny_ks->setSizePolicy(sizePolicy1);
         lb_2canny_ks->setMinimumSize(QSize(70, 0));
         lb_2canny_ks->setMaximumSize(QSize(70, 16777215));
         lb_2canny_ks->setAlignment(Qt::AlignCenter);
@@ -592,8 +596,8 @@ public:
 
         hs_2canny_ht = new QSlider(layoutWidget2);
         hs_2canny_ht->setObjectName(QString::fromUtf8("hs_2canny_ht"));
-        sizePolicy1.setHeightForWidth(hs_2canny_ht->sizePolicy().hasHeightForWidth());
-        hs_2canny_ht->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(hs_2canny_ht->sizePolicy().hasHeightForWidth());
+        hs_2canny_ht->setSizePolicy(sizePolicy4);
         hs_2canny_ht->setMaximum(255);
         hs_2canny_ht->setValue(100);
         hs_2canny_ht->setOrientation(Qt::Horizontal);
@@ -613,8 +617,8 @@ public:
 
         lb_2canny_lt = new QLabel(layoutWidget2);
         lb_2canny_lt->setObjectName(QString::fromUtf8("lb_2canny_lt"));
-        sizePolicy.setHeightForWidth(lb_2canny_lt->sizePolicy().hasHeightForWidth());
-        lb_2canny_lt->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(lb_2canny_lt->sizePolicy().hasHeightForWidth());
+        lb_2canny_lt->setSizePolicy(sizePolicy3);
         lb_2canny_lt->setMaximumSize(QSize(70, 16777215));
         lb_2canny_lt->setAlignment(Qt::AlignCenter);
 
@@ -633,8 +637,8 @@ public:
 
         hs_2canny_lt = new QSlider(layoutWidget2);
         hs_2canny_lt->setObjectName(QString::fromUtf8("hs_2canny_lt"));
-        sizePolicy1.setHeightForWidth(hs_2canny_lt->sizePolicy().hasHeightForWidth());
-        hs_2canny_lt->setSizePolicy(sizePolicy1);
+        sizePolicy4.setHeightForWidth(hs_2canny_lt->sizePolicy().hasHeightForWidth());
+        hs_2canny_lt->setSizePolicy(sizePolicy4);
         hs_2canny_lt->setMaximum(255);
         hs_2canny_lt->setValue(10);
         hs_2canny_lt->setOrientation(Qt::Horizontal);
@@ -646,11 +650,11 @@ public:
         comba_2canny_ks->addItem(QString());
         comba_2canny_ks->addItem(QString());
         comba_2canny_ks->setObjectName(QString::fromUtf8("comba_2canny_ks"));
-        QSizePolicy sizePolicy7(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(comba_2canny_ks->sizePolicy().hasHeightForWidth());
-        comba_2canny_ks->setSizePolicy(sizePolicy7);
+        QSizePolicy sizePolicy8(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(comba_2canny_ks->sizePolicy().hasHeightForWidth());
+        comba_2canny_ks->setSizePolicy(sizePolicy8);
         comba_2canny_ks->setMinimumSize(QSize(50, 0));
         comba_2canny_ks->setMaximumSize(QSize(50, 16777215));
 
@@ -662,6 +666,12 @@ public:
 
         verticalLayout_5->addLayout(verticalLayout_4);
 
+        cb_enhancement = new QCheckBox(gb_imagePro);
+        cb_enhancement->setObjectName(QString::fromUtf8("cb_enhancement"));
+        cb_enhancement->setGeometry(QRect(360, 30, 101, 23));
+        cb_laplacian = new QCheckBox(gb_imagePro);
+        cb_laplacian->setObjectName(QString::fromUtf8("cb_laplacian"));
+        cb_laplacian->setGeometry(QRect(360, 60, 101, 23));
         tbw_sub->addTab(tab_cv, QString());
         tab_pointSet = new QWidget();
         tab_pointSet->setObjectName(QString::fromUtf8("tab_pointSet"));
@@ -826,16 +836,16 @@ public:
         authersaid->setEnabled(false);
         authersaid->setGeometry(QRect(840, 670, 321, 20));
         authersaid->setText(QString::fromUtf8("reserved by gujunwei email:jerrygu.gjw@gmail.com"));
-        widget = new QWidget(centralwidget);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(0, 0, 2, 2));
-        verticalLayout_6 = new QVBoxLayout(widget);
+        layoutWidget4 = new QWidget(centralwidget);
+        layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(0, 0, 2, 2));
+        verticalLayout_6 = new QVBoxLayout(layoutWidget4);
         verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
         verticalLayout_6->setContentsMargins(0, 0, 0, 0);
-        widget1 = new QWidget(centralwidget);
-        widget1->setObjectName(QString::fromUtf8("widget1"));
-        widget1->setGeometry(QRect(0, 0, 2, 2));
-        verticalLayout_7 = new QVBoxLayout(widget1);
+        layoutWidget5 = new QWidget(centralwidget);
+        layoutWidget5->setObjectName(QString::fromUtf8("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(0, 0, 2, 2));
+        verticalLayout_7 = new QVBoxLayout(layoutWidget5);
         verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
         verticalLayout_7->setContentsMargins(0, 0, 0, 0);
         MainWindow->setCentralWidget(centralwidget);
@@ -850,8 +860,8 @@ public:
         retranslateUi(MainWindow);
 
         tbw_main->setCurrentIndex(0);
-        tbw_sub->setCurrentIndex(0);
         comba_imageTopics->setCurrentIndex(-1);
+        tbw_sub->setCurrentIndex(0);
         comba_2binary_type->setCurrentIndex(0);
         comba_2canny_ks->setCurrentIndex(0);
 
@@ -863,6 +873,9 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "NICar", nullptr));
         lb_camImage->setText(QApplication::translate("MainWindow", "NO SIGNAL", nullptr));
+        comba_imageTopics->setCurrentText(QString());
+        bt_playCam->setText(QApplication::translate("MainWindow", "Play", nullptr));
+        bt_saveImg->setText(QApplication::translate("MainWindow", "Save", nullptr));
         tbw_main->setTabText(tbw_main->indexOf(tb_camera), QApplication::translate("MainWindow", "Camera", nullptr));
         tbw_main->setTabText(tbw_main->indexOf(tb_rviz), QApplication::translate("MainWindow", "Rviz", nullptr));
         bt_sendM->setText(QApplication::translate("MainWindow", "Send", nullptr));
@@ -883,9 +896,6 @@ public:
         gb_topicLists->setTitle(QApplication::translate("MainWindow", "Topics", nullptr));
         bt_refreshTopicsLists->setText(QApplication::translate("MainWindow", "Refresh", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_con), QApplication::translate("MainWindow", "Connection", nullptr));
-        groupBox_5->setTitle(QApplication::translate("MainWindow", "Camera", nullptr));
-        comba_imageTopics->setCurrentText(QString());
-        bt_playCam->setText(QApplication::translate("MainWindow", "Play", nullptr));
         li_saveNameRule->setPlaceholderText(QApplication::translate("MainWindow", "Pic Name Rule", nullptr));
         bt_setSaveNameRule->setText(QApplication::translate("MainWindow", "Set", nullptr));
         tb_chooseSaveDir->setHtml(QApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -898,7 +908,6 @@ public:
         tbw_sub->setTabText(tbw_sub->indexOf(tab_image), QApplication::translate("MainWindow", "Image", nullptr));
         gb_imagePro->setTitle(QApplication::translate("MainWindow", "Image Process", nullptr));
         cb_2gray->setText(QApplication::translate("MainWindow", "2Gray", nullptr));
-        cb_enhancement->setText(QApplication::translate("MainWindow", "Enhancement", nullptr));
         comba_2binary_type->setItemText(0, QApplication::translate("MainWindow", "CV_THRESH_BINARY", nullptr));
         comba_2binary_type->setItemText(1, QApplication::translate("MainWindow", "CV_THRESH_BINARY_INV", nullptr));
         comba_2binary_type->setItemText(2, QApplication::translate("MainWindow", "CV_THRESH_TRUNC", nullptr));
@@ -919,6 +928,8 @@ public:
         comba_2canny_ks->setItemText(2, QApplication::translate("MainWindow", "7", nullptr));
 
         comba_2canny_ks->setCurrentText(QApplication::translate("MainWindow", "3", nullptr));
+        cb_enhancement->setText(QApplication::translate("MainWindow", "NightBoost", nullptr));
+        cb_laplacian->setText(QApplication::translate("MainWindow", "Laplacian", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_cv), QApplication::translate("MainWindow", "CV", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_pointSet), QApplication::translate("MainWindow", "Point", nullptr));
         gb_baseInfo->setTitle(QApplication::translate("MainWindow", "  NICar INFO", nullptr));

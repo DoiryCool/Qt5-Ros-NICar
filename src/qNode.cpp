@@ -87,6 +87,10 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     {
         cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         des = cv_ptr->image;
+        if (img._laplacian == true)
+        {
+            des = Laplacian(des);
+        }
         if (img._logEnhance == true)
         {
             des = logEnhance(des);
@@ -136,6 +140,9 @@ QMap<QString, QString> qNode::get_topic_list()
     return res;
 }
 
+cv::Mat qNode::getPicture(void){
+    return cv_ptr->image;
+}
 qNode::~qNode(void)
 {
     if (ros::isStarted())

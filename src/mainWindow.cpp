@@ -32,19 +32,22 @@ mainWindow::mainWindow(void)
     QObject::connect(&qnode, SIGNAL(sendTemperature(QString)), this, SLOT(updateTemperature(QString)));
 
     QObject::connect(ui->bt_playCam, SIGNAL(clicked(void)), this, SLOT(bt_play_clicked(void)));
-    QObject::connect(ui->cb_2gray, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->cb_2binary, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->cb_2canny, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->cb_enhancement, SIGNAL(clicked(void)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->hs_2binary_threshold, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->hs_2binary_maxval, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->comba_2binary_type, SIGNAL(currentTextChanged(QString)), this, SLOT(imageProChecked(void)));
+    QObject::connect(ui->bt_saveImg, SIGNAL(clicked(void)), this, SLOT(slot_bt_saveImg_clicked(void)));
+    QObject::connect(ui->cb_2gray, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->cb_2binary, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->cb_2canny, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->cb_enhancement, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->cb_laplacian, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
 
-    QObject::connect(ui->hs_2canny_lt, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->hs_2canny_ht, SIGNAL(valueChanged(int)), this, SLOT(imageProChecked(void)));
-    QObject::connect(ui->comba_2canny_ks, SIGNAL(currentTextChanged(QString)), this, SLOT(imageProChecked(void)));
+    QObject::connect(ui->hs_2binary_threshold, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->hs_2binary_maxval, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->comba_2binary_type, SIGNAL(currentTextChanged(QString)), this, SLOT(slot_imageProChecked(void)));
 
-    QObject::connect(ui->bt_refreshTopicsLists, SIGNAL(clicked()), this, SLOT(refreshTopLists(void)));
+    QObject::connect(ui->hs_2canny_lt, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->hs_2canny_ht, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->comba_2canny_ks, SIGNAL(currentTextChanged(QString)), this, SLOT(slot_imageProChecked(void)));
+
+    QObject::connect(ui->bt_refreshTopicsLists, SIGNAL(clicked()), this, SLOT(slot_bt_refreshTop_clicked(void)));
 }
 
 void mainWindow::readSettings(void)
@@ -231,20 +234,7 @@ void mainWindow::updateImage(QImage img)
     ui->lb_camImage->setPixmap(QPixmap::fromImage(img).scaled(ui->lb_camImage->width(), ui->lb_camImage->height()));
 }
 
-void mainWindow::bt_play_clicked(void)
-{
-    if (ui->bt_playCam->text() == "Play")
-    {
-        ui->bt_playCam->setText("Cancel");
-        qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
-    }
-    else
-    {
-        qnode.sub_stop_image();
-        ui->bt_playCam->setText("Play");
-    }
-}
-
+// IMU
 void mainWindow::updateImu(QVariant getData)
 {
     imuMsg imuM = getData.value<imuMsg>();
@@ -260,12 +250,28 @@ void mainWindow::updateImu(QVariant getData)
 }
 
 // topicsLists
-void mainWindow::refreshTopLists(void)
+void mainWindow::slot_bt_refreshTop_clicked(void)
 {
     initTopicList();
 }
 
-void mainWindow::imageProChecked(void)
+// Images
+void mainWindow::bt_play_clicked(void)
+{
+    if (ui->bt_playCam->text() == "Play")
+    {
+        ui->bt_playCam->setText("Cancel");
+        qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
+        ui->bt_saveImg->setEnabled(true);
+    }
+    else
+    {
+        qnode.sub_stop_image();
+        ui->bt_playCam->setText("Play");
+    }
+}
+
+void mainWindow::slot_imageProChecked(void)
 {
     if (ui->cb_2gray->isChecked())
     {
@@ -306,10 +312,29 @@ void mainWindow::imageProChecked(void)
     }
     if (ui->cb_enhancement->isChecked())
     {
-       qnode.img._logEnhance = true;
+        qnode.img._logEnhance = true;
     }
     else
     {
         qnode.img._logEnhance = false;
+    }
+    if (ui->cb_laplacian->isChecked())
+    {
+        qnode.img._laplacian = true;
+    }
+    else
+    {
+        qnode.img._laplacian = false;
+    }
+}
+
+void mainWindow::slot_bt_saveImg_clicked(void)
+{
+    if (saveImage(qnode.getPicture()))
+    {
+        ui->tx_showInfo->append(showInfo("Image Saved!"));
+    }
+    else{
+        ui->tx_showInfo->append(showInfo("Error occurred! Not Saved!"));
     }
 }

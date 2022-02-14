@@ -64,6 +64,7 @@ public:
     void sub_image(QString);
     void sub_stop_image();
     void imageCallback(const sensor_msgs::ImageConstPtr &);
+    cv::Mat getPicture(void);
     // showTopics
     QMap<QString, QString> get_topic_list();
     // imu
