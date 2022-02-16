@@ -22,6 +22,7 @@ mainWindow::mainWindow(void)
     ui->li_localIpShow->setText(localIP);
     QObject::connect(ui->bt_connectR, SIGNAL(clicked(void)), this, SLOT(bt_connectR_clicked(void)));
     QObject::connect(ui->bt_saveUrl, SIGNAL(clicked(void)), this, SLOT(saveValues(void)));
+    QObject::connect(ui->bt_setSaveNameRule, SIGNAL(clicked(void)), this, SLOT(saveValues(void)));
 
     QObject::connect(ui->bt_sendM, SIGNAL(clicked(void)), this, SLOT(sendMessage(void)));
     QObject::connect(ui->bt_clearSendM, SIGNAL(clicked(void)), this, SLOT(clear_li_sendM(void)));
@@ -31,8 +32,9 @@ mainWindow::mainWindow(void)
     QObject::connect(&qnode, SIGNAL(sendImu(QVariant)), this, SLOT(updateImu(QVariant)));
     QObject::connect(&qnode, SIGNAL(sendTemperature(QString)), this, SLOT(updateTemperature(QString)));
 
-    QObject::connect(ui->bt_playCam, SIGNAL(clicked(void)), this, SLOT(bt_play_clicked(void)));
+    QObject::connect(ui->bt_playCam, SIGNAL(clicked(void)), this, SLOT(slot_bt_play_clicked(void)));
     QObject::connect(ui->bt_saveImg, SIGNAL(clicked(void)), this, SLOT(slot_bt_saveImg_clicked(void)));
+
     QObject::connect(ui->cb_2gray, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
     QObject::connect(ui->cb_2binary, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
     QObject::connect(ui->cb_2canny, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
@@ -58,16 +60,19 @@ void mainWindow::readSettings(void)
 
     if (!inFile.is_open())
     {
+        ui->tx_showInfo->append(showInfo("Error 1000: Read settins file failed! Please put setting.json in \"src/nicar_gui/src/settings.json\""));
         return;
     }
     if (reader.parse(inFile, root))
     {
         defaultRosIp = QString::fromStdString(root["defaultRosIp"].asString());
         defaultPort = QString::fromStdString(root["port"].asString());
+        __imgSaveNameRule = QString::fromStdString(root["saveImgNameRule"].asString());
         currentRosIp = defaultRosIp;
         currentPort = defaultPort;
-        ui->li_ipAdd->setPlaceholderText(currentRosIp);
-        ui->li_ipPort->setPlaceholderText(currentPort);
+        ui->li_ipAdd->setText(currentRosIp);
+        ui->li_ipPort->setText(currentPort);
+        ui->li_saveNameRule->setText(__imgSaveNameRule);
     }
 }
 
@@ -77,6 +82,7 @@ void mainWindow::windowInit()
     setWindowIcon(QIcon("src/nicar_gui/pictures/icon.jpeg"));
     this->move((screenRect.width() - this->width()) / 2,
                (screenRect.height() - this->height()) / 2);
+    ui->comba_imageTopics->addItem(QString("%1   (%2)").arg("LocalCamera(0)", "Mat"));
 }
 
 void mainWindow::connectToMaster(void)
@@ -132,7 +138,7 @@ void mainWindow::initTopicList()
 {
     ui->lt_topics->clear();
     ui->comba_imageTopics->clear();
-    ui->lt_topics->addItem(QString("%1   (%2)").arg("Name", "Type"));
+    ui->comba_imageTopics->addItem(QString("%1   (%2)").arg("LocalCamera(0)", "Mat"));
     QMap<QString, QString> topic_list = qnode.get_topic_list();
     for (QMap<QString, QString>::iterator iter = topic_list.begin(); iter != topic_list.end(); iter++)
     {
@@ -164,7 +170,6 @@ void mainWindow::bt_connectR_clicked(void)
         ui->tx_showInfo->append(showInfo("Disconnected!"));
         ui->bt_connectR->setText("Connect");
         ui->lt_topics->clear();
-        qnode.~qNode();
         status = false;
     }
 }
@@ -176,31 +181,31 @@ void mainWindow::saveValues(void)
     std::ifstream outFile("src/nicar_gui/src/settings.json");
     if (!outFile.is_open())
     {
-        ui->tx_showInfo->append(showInfo("Open settings failed"));
+        ui->tx_showInfo->append(showInfo("Error 1002: Failed to open setting fils,please check the fileDir!"));
         return;
     }
-    if (reader.parse(outFile, root))
+    else if (reader.parse(outFile, root))
     {
-        if (ui->li_ipAdd->text().toStdString() != "")
+        if (ui->li_ipAdd->text().toStdString() == "" || ui->li_ipAdd->text().toStdString() == "")
         {
-            root["defaultRosIp"] = ui->li_ipAdd->text().toStdString();
-            root["port"] = ui->li_ipPort->text().toStdString();
-            currentRosIp = ui->li_ipAdd->text();
-            currentPort = ui->li_ipPort->text();
-
-            Json::StyledWriter writer;
-            std::string strWrite = writer.write(root);
-            std::ofstream ofs;
-            ofs.open("src/upper_machine/src/settings.json");
-            ofs << strWrite;
-            ofs.close();
-
-            ui->tx_showInfo->append(showInfo("ROS_Master_IP Saved!"));
+            ui->tx_showInfo->append(showInfo("Error 1003: You should enter IP and Port!"));
+            return;
         }
-        else
-        {
-            ui->tx_showInfo->append(showInfo("Not Saved!"));
-        }
+        root["defaultRosIp"] = ui->li_ipAdd->text().toStdString();
+        root["port"] = ui->li_ipPort->text().toStdString();
+        currentRosIp = ui->li_ipAdd->text();
+        currentPort = ui->li_ipPort->text();
+
+        root["saveImgNameRule"] = ui->li_saveNameRule->text().toStdString();
+        __imgSaveNameRule = ui->li_ipPort->text();
+
+        Json::StyledWriter writer;
+        std::string strWrite = writer.write(root);
+        std::ofstream ofs;
+        ofs.open("settings.json");
+        ofs << strWrite;
+        ofs.close();
+        ui->tx_showInfo->append(showInfo("Values Saved!"));
     }
 }
 
@@ -256,12 +261,22 @@ void mainWindow::slot_bt_refreshTop_clicked(void)
 }
 
 // Images
-void mainWindow::bt_play_clicked(void)
+void mainWindow::slot_bt_play_clicked(void)
 {
     if (ui->bt_playCam->text() == "Play")
     {
         ui->bt_playCam->setText("Cancel");
-        qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
+        // LocalCamera(0)
+        if (ui->comba_imageTopics->currentText().contains("LocalCamera"))
+        {
+            std::thread th2(&mainWindow::playLocalCamera, this);
+            th2.join();
+        }
+        else
+        {
+            qnode.sub_image(ui->comba_imageTopics->currentText().mid(1));
+        }
+
         ui->bt_saveImg->setEnabled(true);
     }
     else
@@ -269,6 +284,24 @@ void mainWindow::bt_play_clicked(void)
         qnode.sub_stop_image();
         ui->bt_playCam->setText("Play");
     }
+}
+
+void mainWindow::playLocalCamera(void)
+{
+    if (!capture.open(0))
+    {
+        ui->tx_showInfo->append(showInfo("Error 2001: Camera open failed! Is it connected?"));
+        return;
+    }
+    cv::Mat gatImg;
+    while (ui->bt_playCam->text() == "Cancel")
+    {
+        capture >> gatImg;
+        cv::cvtColor(gatImg, gatImg, CV_BGR2RGB);
+        QImage showImg = imageManager.Mat2QImage(gatImg);
+        ui->lb_camImage->setPixmap(QPixmap::fromImage(showImg).scaled(ui->lb_camImage->width(), ui->lb_camImage->height()));
+    }
+    capture.release();
 }
 
 void mainWindow::slot_imageProChecked(void)
@@ -330,11 +363,12 @@ void mainWindow::slot_imageProChecked(void)
 
 void mainWindow::slot_bt_saveImg_clicked(void)
 {
-    if (saveImage(qnode.getPicture()))
+    if (imageManager.saveImage(qnode.getPicture()))
     {
         ui->tx_showInfo->append(showInfo("Image Saved!"));
     }
-    else{
+    else
+    {
         ui->tx_showInfo->append(showInfo("Error occurred! Not Saved!"));
     }
 }

@@ -53,6 +53,7 @@ private:
     image_transport::Subscriber image_sub;
     cv_bridge::CvImagePtr cv_ptr;
     cv::Mat des;
+    imagePro imageManager;
 
 public:
     qNode(void);

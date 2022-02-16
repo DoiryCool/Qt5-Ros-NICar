@@ -38,10 +38,13 @@ private:
     int lbWidth1 = sizeWidth * 0.04;
     int lbHeight1 = sizeHeight * 0.04;
     bool status = false;
+    cv::VideoCapture capture;
 
-    //IP_Set
+    //settings
     QString defaultRosIp;
     QString defaultPort;
+
+    //IP_Set
     QString currentRosIp;
     QString currentPort;
     QString localIP;
@@ -51,6 +54,7 @@ private:
 
     Ui::MainWindow* ui;
     qNode qnode;
+    imagePro imageManager;
 
 public:
     mainWindow(void);
@@ -72,7 +76,8 @@ public slots:
     void showRosMes(QString);
     //Image
     void updateImage(QImage);
-    void bt_play_clicked(void);
+    void slot_bt_play_clicked(void);
+    void playLocalCamera(void);
     //topicLists
     void slot_bt_refreshTop_clicked(void);
     //orientation

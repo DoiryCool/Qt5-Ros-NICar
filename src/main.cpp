@@ -1,4 +1,5 @@
 #include <string.h>
+#include <boost/python.hpp>
 #include "../include/mainWindow.h"
 
 #include <QApplication>

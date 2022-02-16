@@ -19,7 +19,7 @@ bool qNode::nodeInit(const std::string &master_url, const std::string &host_url)
     ros::init(remappings, "NICar_master", ros::init_options::AnonymousName);
     if (!ros::master::check())
     {
-        emit sendInfoMes("Connected failed!");
+        emit sendInfoMes("Unable to find ros master in the IP,Please check the IP address and the Port!");
         return false;
     }
     ros::start();
@@ -89,11 +89,11 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
         des = cv_ptr->image;
         if (img._laplacian == true)
         {
-            des = Laplacian(des);
+            des = imageManager.Laplacian(des);
         }
         if (img._logEnhance == true)
         {
-            des = logEnhance(des);
+            des = imageManager.logEnhance(des);
         }
         if (img._grayConfig == true)
         {
@@ -112,7 +112,7 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
             cv::Canny(des, des, img._cannyConfig.lowThreshold, img._cannyConfig.highThreshold, img._cannyConfig.Kernel_size);
         }
         
-        QImage im = Mat2QImage(des);
+        QImage im = imageManager.Mat2QImage(des);
         emit sendImage(im);
     }
     catch (cv_bridge::Exception &e)

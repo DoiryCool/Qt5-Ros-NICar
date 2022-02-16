@@ -199,7 +199,7 @@ public:
 
         bt_playCam = new QPushButton(layoutWidget_2);
         bt_playCam->setObjectName(QString::fromUtf8("bt_playCam"));
-        bt_playCam->setEnabled(false);
+        bt_playCam->setEnabled(true);
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -834,7 +834,7 @@ public:
         authersaid = new QLabel(centralwidget);
         authersaid->setObjectName(QString::fromUtf8("authersaid"));
         authersaid->setEnabled(false);
-        authersaid->setGeometry(QRect(840, 670, 321, 20));
+        authersaid->setGeometry(QRect(850, 670, 321, 20));
         authersaid->setText(QString::fromUtf8("reserved by gujunwei email:jerrygu.gjw@gmail.com"));
         layoutWidget4 = new QWidget(centralwidget);
         layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));

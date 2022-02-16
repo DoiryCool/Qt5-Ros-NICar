@@ -89,7 +89,7 @@ color: rgb(255, 255, 255);
        <item>
         <widget class="QPushButton" name="bt_playCam">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1356,7 +1356,7 @@ p, li { white-space: pre-wrap; }
     </property>
     <property name="geometry">
      <rect>
-      <x>840</x>
+      <x>850</x>
       <y>670</y>
       <width>321</width>
       <height>20</height>
