@@ -19,7 +19,9 @@ bool qNode::nodeInit(const std::string &master_url, const std::string &host_url)
     ros::init(remappings, "NICar_master", ros::init_options::AnonymousName);
     if (!ros::master::check())
     {
-        emit sendInfoMes("Unable to find ros master in the IP,Please check the IP address and the Port!");
+        emit sendInfoMes("Unable to find ros master in the IP!Please check : ");
+        emit sendInfoMes("1) If the IP address and the Port is right!");
+        emit sendInfoMes("2) If the master node is satrted!");
         return false;
     }
     ros::start();

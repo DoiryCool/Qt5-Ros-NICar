@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
@@ -22,6 +23,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
@@ -37,7 +39,15 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionSerialTools;
     QWidget *centralwidget;
+    QLabel *authersaid;
+    QWidget *layoutWidget;
+    QVBoxLayout *verticalLayout_6;
+    QWidget *layoutWidget1;
+    QVBoxLayout *verticalLayout_7;
+    QTabWidget *tabWidget;
+    QWidget *tb_base;
     QTabWidget *tbw_main;
     QWidget *tb_camera;
     QLabel *lb_camImage;
@@ -47,18 +57,12 @@ public:
     QPushButton *bt_playCam;
     QPushButton *bt_saveImg;
     QWidget *tb_rviz;
-    QTextBrowser *tx_showInfo;
-    QWidget *horizontalLayoutWidget_2;
-    QHBoxLayout *horizontalLayout_2;
-    QLineEdit *li_sendM;
-    QPushButton *bt_sendM;
-    QPushButton *bt_clearSendM;
     QTabWidget *tbw_sub;
     QWidget *tab_con;
-    QWidget *layoutWidget;
+    QWidget *layoutWidget2;
     QVBoxLayout *verticalLayout_2;
     QGroupBox *gb_connections;
-    QWidget *layoutWidget1;
+    QWidget *layoutWidget3;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_4;
     QLabel *lb_ipAdd;
@@ -93,7 +97,7 @@ public:
     QPushButton *bt_chooseSaveDir;
     QWidget *tab_cv;
     QGroupBox *gb_imagePro;
-    QWidget *layoutWidget2;
+    QWidget *layoutWidget4;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_9;
     QCheckBox *cb_2gray;
@@ -120,7 +124,7 @@ public:
     QComboBox *comba_2canny_ks;
     QCheckBox *cb_enhancement;
     QCheckBox *cb_laplacian;
-    QWidget *tab_pointSet;
+    QWidget *tab_map;
     QGroupBox *gb_baseInfo;
     QGroupBox *groupBox;
     QFormLayout *formLayout;
@@ -131,7 +135,7 @@ public:
     QLineEdit *li_z;
     QLineEdit *li_x;
     QGroupBox *groupBox_2;
-    QWidget *layoutWidget3;
+    QWidget *layoutWidget5;
     QFormLayout *formLayout_2;
     QLabel *lb_temperature;
     QLineEdit *li_temperature;
@@ -151,25 +155,65 @@ public:
     QLineEdit *li_angle_y;
     QLabel *lb_angel_z;
     QLineEdit *li_angle_z;
-    QLabel *authersaid;
-    QWidget *layoutWidget4;
-    QVBoxLayout *verticalLayout_6;
-    QWidget *layoutWidget5;
-    QVBoxLayout *verticalLayout_7;
+    QTabWidget *tabWidget_2;
+    QWidget *tab;
+    QWidget *layoutWidget_4;
+    QVBoxLayout *verticalLayout_9;
+    QTextBrowser *tx_showInfo_terminal;
+    QHBoxLayout *horizontalLayout_10;
+    QLineEdit *li_Terminal;
+    QPushButton *bt_run;
+    QPushButton *bt_clearRun;
+    QWidget *tab_2;
+    QWidget *layoutWidget6;
+    QVBoxLayout *verticalLayout_8;
+    QTextBrowser *tx_showInfo;
+    QHBoxLayout *horizontalLayout_2;
+    QLineEdit *li_sendM;
+    QPushButton *bt_sendM;
+    QPushButton *bt_clearSendM;
+    QWidget *tab_runData;
     QMenuBar *menubar;
+    QMenu *menutools;
+    QMenu *menutools_2;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1167, 716);
+        MainWindow->resize(1177, 790);
+        actionSerialTools = new QAction(MainWindow);
+        actionSerialTools->setObjectName(QString::fromUtf8("actionSerialTools"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        tbw_main = new QTabWidget(centralwidget);
+        authersaid = new QLabel(centralwidget);
+        authersaid->setObjectName(QString::fromUtf8("authersaid"));
+        authersaid->setEnabled(false);
+        authersaid->setGeometry(QRect(840, 720, 321, 20));
+        authersaid->setText(QString::fromUtf8("reserved by gujunwei email:jerrygu.gjw@gmail.com"));
+        layoutWidget = new QWidget(centralwidget);
+        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
+        layoutWidget->setGeometry(QRect(0, 0, 2, 2));
+        verticalLayout_6 = new QVBoxLayout(layoutWidget);
+        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
+        verticalLayout_6->setContentsMargins(0, 0, 0, 0);
+        layoutWidget1 = new QWidget(centralwidget);
+        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(0, 0, 2, 2));
+        verticalLayout_7 = new QVBoxLayout(layoutWidget1);
+        verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
+        verticalLayout_7->setContentsMargins(0, 0, 0, 0);
+        tabWidget = new QTabWidget(centralwidget);
+        tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
+        tabWidget->setGeometry(QRect(0, 0, 1171, 741));
+        tabWidget->setTabPosition(QTabWidget::South);
+        tb_base = new QWidget();
+        tb_base->setObjectName(QString::fromUtf8("tb_base"));
+        tbw_main = new QTabWidget(tb_base);
         tbw_main->setObjectName(QString::fromUtf8("tbw_main"));
-        tbw_main->setGeometry(QRect(0, 0, 581, 432));
-        tbw_main->setTabPosition(QTabWidget::North);
+        tbw_main->setGeometry(QRect(10, 10, 611, 411));
+        tbw_main->setTabPosition(QTabWidget::West);
         tb_camera = new QWidget();
         tb_camera->setObjectName(QString::fromUtf8("tb_camera"));
         lb_camImage = new QLabel(tb_camera);
@@ -223,58 +267,31 @@ public:
         tb_rviz = new QWidget();
         tb_rviz->setObjectName(QString::fromUtf8("tb_rviz"));
         tbw_main->addTab(tb_rviz, QString());
-        tx_showInfo = new QTextBrowser(centralwidget);
-        tx_showInfo->setObjectName(QString::fromUtf8("tx_showInfo"));
-        tx_showInfo->setGeometry(QRect(0, 440, 581, 211));
-        horizontalLayoutWidget_2 = new QWidget(centralwidget);
-        horizontalLayoutWidget_2->setObjectName(QString::fromUtf8("horizontalLayoutWidget_2"));
-        horizontalLayoutWidget_2->setGeometry(QRect(0, 640, 581, 31));
-        horizontalLayout_2 = new QHBoxLayout(horizontalLayoutWidget_2);
-        horizontalLayout_2->setSpacing(0);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        horizontalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        li_sendM = new QLineEdit(horizontalLayoutWidget_2);
-        li_sendM->setObjectName(QString::fromUtf8("li_sendM"));
-
-        horizontalLayout_2->addWidget(li_sendM);
-
-        bt_sendM = new QPushButton(horizontalLayoutWidget_2);
-        bt_sendM->setObjectName(QString::fromUtf8("bt_sendM"));
-        bt_sendM->setEnabled(false);
-
-        horizontalLayout_2->addWidget(bt_sendM);
-
-        bt_clearSendM = new QPushButton(horizontalLayoutWidget_2);
-        bt_clearSendM->setObjectName(QString::fromUtf8("bt_clearSendM"));
-
-        horizontalLayout_2->addWidget(bt_clearSendM);
-
-        tbw_sub = new QTabWidget(centralwidget);
+        tbw_sub = new QTabWidget(tb_base);
         tbw_sub->setObjectName(QString::fromUtf8("tbw_sub"));
         tbw_sub->setEnabled(true);
-        tbw_sub->setGeometry(QRect(620, 30, 531, 401));
+        tbw_sub->setGeometry(QRect(640, 10, 531, 411));
         tbw_sub->setTabPosition(QTabWidget::East);
         tab_con = new QWidget();
         tab_con->setObjectName(QString::fromUtf8("tab_con"));
-        layoutWidget = new QWidget(tab_con);
-        layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
-        layoutWidget->setGeometry(QRect(20, 20, 461, 361));
-        verticalLayout_2 = new QVBoxLayout(layoutWidget);
+        layoutWidget2 = new QWidget(tab_con);
+        layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(20, 20, 461, 371));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget2);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        gb_connections = new QGroupBox(layoutWidget);
+        gb_connections = new QGroupBox(layoutWidget2);
         gb_connections->setObjectName(QString::fromUtf8("gb_connections"));
-        layoutWidget1 = new QWidget(gb_connections);
-        layoutWidget1->setObjectName(QString::fromUtf8("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(30, 30, 401, 101));
-        verticalLayout = new QVBoxLayout(layoutWidget1);
+        layoutWidget3 = new QWidget(gb_connections);
+        layoutWidget3->setObjectName(QString::fromUtf8("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(30, 30, 401, 101));
+        verticalLayout = new QVBoxLayout(layoutWidget3);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(1);
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        lb_ipAdd = new QLabel(layoutWidget1);
+        lb_ipAdd = new QLabel(layoutWidget3);
         lb_ipAdd->setObjectName(QString::fromUtf8("lb_ipAdd"));
         QSizePolicy sizePolicy3(QSizePolicy::Maximum, QSizePolicy::Preferred);
         sizePolicy3.setHorizontalStretch(0);
@@ -284,7 +301,7 @@ public:
 
         horizontalLayout_4->addWidget(lb_ipAdd);
 
-        li_ipAdd = new QLineEdit(layoutWidget1);
+        li_ipAdd = new QLineEdit(layoutWidget3);
         li_ipAdd->setObjectName(QString::fromUtf8("li_ipAdd"));
         QSizePolicy sizePolicy4(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy4.setHorizontalStretch(0);
@@ -298,14 +315,14 @@ public:
 
         horizontalLayout_4->addItem(horizontalSpacer_5);
 
-        lb_ipPort = new QLabel(layoutWidget1);
+        lb_ipPort = new QLabel(layoutWidget3);
         lb_ipPort->setObjectName(QString::fromUtf8("lb_ipPort"));
         sizePolicy.setHeightForWidth(lb_ipPort->sizePolicy().hasHeightForWidth());
         lb_ipPort->setSizePolicy(sizePolicy);
 
         horizontalLayout_4->addWidget(lb_ipPort);
 
-        li_ipPort = new QLineEdit(layoutWidget1);
+        li_ipPort = new QLineEdit(layoutWidget3);
         li_ipPort->setObjectName(QString::fromUtf8("li_ipPort"));
         QSizePolicy sizePolicy5(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy5.setHorizontalStretch(0);
@@ -329,7 +346,7 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer_2);
 
-        bt_connectR = new QPushButton(layoutWidget1);
+        bt_connectR = new QPushButton(layoutWidget3);
         bt_connectR->setObjectName(QString::fromUtf8("bt_connectR"));
         QSizePolicy sizePolicy6(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy6.setHorizontalStretch(0);
@@ -344,7 +361,7 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        bt_saveUrl = new QPushButton(layoutWidget1);
+        bt_saveUrl = new QPushButton(layoutWidget3);
         bt_saveUrl->setObjectName(QString::fromUtf8("bt_saveUrl"));
         sizePolicy6.setHeightForWidth(bt_saveUrl->sizePolicy().hasHeightForWidth());
         bt_saveUrl->setSizePolicy(sizePolicy6);
@@ -363,19 +380,19 @@ public:
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
-        statusColor = new QLabel(layoutWidget1);
+        statusColor = new QLabel(layoutWidget3);
         statusColor->setObjectName(QString::fromUtf8("statusColor"));
         statusColor->setMaximumSize(QSize(10, 10));
         statusColor->setStyleSheet(QString::fromUtf8("background-color:rgb(164, 0, 0)"));
 
         horizontalLayout_3->addWidget(statusColor);
 
-        lb_statusSig = new QLabel(layoutWidget1);
+        lb_statusSig = new QLabel(layoutWidget3);
         lb_statusSig->setObjectName(QString::fromUtf8("lb_statusSig"));
 
         horizontalLayout_3->addWidget(lb_statusSig);
 
-        lb_status = new QLabel(layoutWidget1);
+        lb_status = new QLabel(layoutWidget3);
         lb_status->setObjectName(QString::fromUtf8("lb_status"));
 
         horizontalLayout_3->addWidget(lb_status);
@@ -385,13 +402,13 @@ public:
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
-        lb_localIp = new QLabel(layoutWidget1);
+        lb_localIp = new QLabel(layoutWidget3);
         lb_localIp->setObjectName(QString::fromUtf8("lb_localIp"));
         lb_localIp->setMaximumSize(QSize(65, 16777215));
 
         horizontalLayout_6->addWidget(lb_localIp);
 
-        li_localIpShow = new QLineEdit(layoutWidget1);
+        li_localIpShow = new QLineEdit(layoutWidget3);
         li_localIpShow->setObjectName(QString::fromUtf8("li_localIpShow"));
         li_localIpShow->setEnabled(false);
 
@@ -411,7 +428,7 @@ public:
         bt_refreshTopicsLists->setGeometry(QRect(400, 0, 61, 21));
         lt_topics = new QListWidget(gb_topicLists);
         lt_topics->setObjectName(QString::fromUtf8("lt_topics"));
-        lt_topics->setGeometry(QRect(0, 20, 461, 201));
+        lt_topics->setGeometry(QRect(0, 20, 461, 211));
 
         verticalLayout_2->addWidget(gb_connections);
 
@@ -427,19 +444,16 @@ public:
         horizontalLayout_8->setContentsMargins(0, 0, 0, 0);
         li_saveNameRule = new QLineEdit(layoutWidget_3);
         li_saveNameRule->setObjectName(QString::fromUtf8("li_saveNameRule"));
-        sizePolicy1.setHeightForWidth(li_saveNameRule->sizePolicy().hasHeightForWidth());
-        li_saveNameRule->setSizePolicy(sizePolicy1);
+        sizePolicy6.setHeightForWidth(li_saveNameRule->sizePolicy().hasHeightForWidth());
+        li_saveNameRule->setSizePolicy(sizePolicy6);
 
         horizontalLayout_8->addWidget(li_saveNameRule);
 
         bt_setSaveNameRule = new QPushButton(layoutWidget_3);
         bt_setSaveNameRule->setObjectName(QString::fromUtf8("bt_setSaveNameRule"));
         bt_setSaveNameRule->setEnabled(true);
-        QSizePolicy sizePolicy7(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy7.setHorizontalStretch(0);
-        sizePolicy7.setVerticalStretch(0);
-        sizePolicy7.setHeightForWidth(bt_setSaveNameRule->sizePolicy().hasHeightForWidth());
-        bt_setSaveNameRule->setSizePolicy(sizePolicy7);
+        sizePolicy6.setHeightForWidth(bt_setSaveNameRule->sizePolicy().hasHeightForWidth());
+        bt_setSaveNameRule->setSizePolicy(sizePolicy6);
 
         horizontalLayout_8->addWidget(bt_setSaveNameRule);
 
@@ -448,14 +462,15 @@ public:
         tb_chooseSaveDir->setEnabled(true);
         sizePolicy4.setHeightForWidth(tb_chooseSaveDir->sizePolicy().hasHeightForWidth());
         tb_chooseSaveDir->setSizePolicy(sizePolicy4);
+        tb_chooseSaveDir->setMaximumSize(QSize(16777215, 27));
 
         horizontalLayout_8->addWidget(tb_chooseSaveDir);
 
         bt_chooseSaveDir = new QPushButton(layoutWidget_3);
         bt_chooseSaveDir->setObjectName(QString::fromUtf8("bt_chooseSaveDir"));
         bt_chooseSaveDir->setEnabled(true);
-        sizePolicy7.setHeightForWidth(bt_chooseSaveDir->sizePolicy().hasHeightForWidth());
-        bt_chooseSaveDir->setSizePolicy(sizePolicy7);
+        sizePolicy6.setHeightForWidth(bt_chooseSaveDir->sizePolicy().hasHeightForWidth());
+        bt_chooseSaveDir->setSizePolicy(sizePolicy6);
 
         horizontalLayout_8->addWidget(bt_chooseSaveDir);
 
@@ -465,15 +480,15 @@ public:
         gb_imagePro = new QGroupBox(tab_cv);
         gb_imagePro->setObjectName(QString::fromUtf8("gb_imagePro"));
         gb_imagePro->setGeometry(QRect(0, 0, 501, 401));
-        layoutWidget2 = new QWidget(gb_imagePro);
-        layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(10, 20, 321, 283));
-        verticalLayout_5 = new QVBoxLayout(layoutWidget2);
+        layoutWidget4 = new QWidget(gb_imagePro);
+        layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(10, 20, 321, 283));
+        verticalLayout_5 = new QVBoxLayout(layoutWidget4);
         verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
         verticalLayout_5->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_9 = new QHBoxLayout();
         horizontalLayout_9->setObjectName(QString::fromUtf8("horizontalLayout_9"));
-        cb_2gray = new QCheckBox(layoutWidget2);
+        cb_2gray = new QCheckBox(layoutWidget4);
         cb_2gray->setObjectName(QString::fromUtf8("cb_2gray"));
 
         horizontalLayout_9->addWidget(cb_2gray);
@@ -485,7 +500,7 @@ public:
         verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        comba_2binary_type = new QComboBox(layoutWidget2);
+        comba_2binary_type = new QComboBox(layoutWidget4);
         comba_2binary_type->addItem(QString());
         comba_2binary_type->addItem(QString());
         comba_2binary_type->addItem(QString());
@@ -496,7 +511,7 @@ public:
 
         gridLayout->addWidget(comba_2binary_type, 1, 0, 1, 3);
 
-        lb_2binary_threshold = new QLabel(layoutWidget2);
+        lb_2binary_threshold = new QLabel(layoutWidget4);
         lb_2binary_threshold->setObjectName(QString::fromUtf8("lb_2binary_threshold"));
         sizePolicy3.setHeightForWidth(lb_2binary_threshold->sizePolicy().hasHeightForWidth());
         lb_2binary_threshold->setSizePolicy(sizePolicy3);
@@ -505,7 +520,7 @@ public:
 
         gridLayout->addWidget(lb_2binary_threshold, 2, 0, 1, 1);
 
-        sb_2binary_threshold = new QDoubleSpinBox(layoutWidget2);
+        sb_2binary_threshold = new QDoubleSpinBox(layoutWidget4);
         sb_2binary_threshold->setObjectName(QString::fromUtf8("sb_2binary_threshold"));
         sb_2binary_threshold->setMinimumSize(QSize(50, 0));
         sb_2binary_threshold->setMaximumSize(QSize(50, 16777215));
@@ -516,7 +531,7 @@ public:
 
         gridLayout->addWidget(sb_2binary_threshold, 2, 1, 1, 1);
 
-        hs_2binary_threshold = new QSlider(layoutWidget2);
+        hs_2binary_threshold = new QSlider(layoutWidget4);
         hs_2binary_threshold->setObjectName(QString::fromUtf8("hs_2binary_threshold"));
         sizePolicy4.setHeightForWidth(hs_2binary_threshold->sizePolicy().hasHeightForWidth());
         hs_2binary_threshold->setSizePolicy(sizePolicy4);
@@ -526,7 +541,7 @@ public:
 
         gridLayout->addWidget(hs_2binary_threshold, 2, 2, 1, 1);
 
-        lb_2binary_maxval = new QLabel(layoutWidget2);
+        lb_2binary_maxval = new QLabel(layoutWidget4);
         lb_2binary_maxval->setObjectName(QString::fromUtf8("lb_2binary_maxval"));
         sizePolicy1.setHeightForWidth(lb_2binary_maxval->sizePolicy().hasHeightForWidth());
         lb_2binary_maxval->setSizePolicy(sizePolicy1);
@@ -535,7 +550,7 @@ public:
 
         gridLayout->addWidget(lb_2binary_maxval, 3, 0, 1, 1);
 
-        sb_2binary_maxval = new QDoubleSpinBox(layoutWidget2);
+        sb_2binary_maxval = new QDoubleSpinBox(layoutWidget4);
         sb_2binary_maxval->setObjectName(QString::fromUtf8("sb_2binary_maxval"));
         sb_2binary_maxval->setMaximumSize(QSize(50, 16777215));
         sb_2binary_maxval->setMaximum(255.000000000000000);
@@ -543,7 +558,7 @@ public:
 
         gridLayout->addWidget(sb_2binary_maxval, 3, 1, 1, 1);
 
-        hs_2binary_maxval = new QSlider(layoutWidget2);
+        hs_2binary_maxval = new QSlider(layoutWidget4);
         hs_2binary_maxval->setObjectName(QString::fromUtf8("hs_2binary_maxval"));
         sizePolicy4.setHeightForWidth(hs_2binary_maxval->sizePolicy().hasHeightForWidth());
         hs_2binary_maxval->setSizePolicy(sizePolicy4);
@@ -553,7 +568,7 @@ public:
 
         gridLayout->addWidget(hs_2binary_maxval, 3, 2, 1, 1);
 
-        cb_2binary = new QCheckBox(layoutWidget2);
+        cb_2binary = new QCheckBox(layoutWidget4);
         cb_2binary->setObjectName(QString::fromUtf8("cb_2binary"));
 
         gridLayout->addWidget(cb_2binary, 0, 0, 1, 1);
@@ -566,7 +581,7 @@ public:
 
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        cb_2canny = new QCheckBox(layoutWidget2);
+        cb_2canny = new QCheckBox(layoutWidget4);
         cb_2canny->setObjectName(QString::fromUtf8("cb_2canny"));
 
         verticalLayout_4->addWidget(cb_2canny);
@@ -574,7 +589,7 @@ public:
         gridLayout_2 = new QGridLayout();
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         gridLayout_2->setHorizontalSpacing(0);
-        lb_2canny_ht = new QLabel(layoutWidget2);
+        lb_2canny_ht = new QLabel(layoutWidget4);
         lb_2canny_ht->setObjectName(QString::fromUtf8("lb_2canny_ht"));
         sizePolicy3.setHeightForWidth(lb_2canny_ht->sizePolicy().hasHeightForWidth());
         lb_2canny_ht->setSizePolicy(sizePolicy3);
@@ -584,7 +599,7 @@ public:
 
         gridLayout_2->addWidget(lb_2canny_ht, 1, 0, 1, 1);
 
-        lb_2canny_ks = new QLabel(layoutWidget2);
+        lb_2canny_ks = new QLabel(layoutWidget4);
         lb_2canny_ks->setObjectName(QString::fromUtf8("lb_2canny_ks"));
         sizePolicy1.setHeightForWidth(lb_2canny_ks->sizePolicy().hasHeightForWidth());
         lb_2canny_ks->setSizePolicy(sizePolicy1);
@@ -594,7 +609,7 @@ public:
 
         gridLayout_2->addWidget(lb_2canny_ks, 2, 0, 1, 1);
 
-        hs_2canny_ht = new QSlider(layoutWidget2);
+        hs_2canny_ht = new QSlider(layoutWidget4);
         hs_2canny_ht->setObjectName(QString::fromUtf8("hs_2canny_ht"));
         sizePolicy4.setHeightForWidth(hs_2canny_ht->sizePolicy().hasHeightForWidth());
         hs_2canny_ht->setSizePolicy(sizePolicy4);
@@ -604,7 +619,7 @@ public:
 
         gridLayout_2->addWidget(hs_2canny_ht, 1, 2, 1, 1);
 
-        sb_2canny_ht = new QDoubleSpinBox(layoutWidget2);
+        sb_2canny_ht = new QDoubleSpinBox(layoutWidget4);
         sb_2canny_ht->setObjectName(QString::fromUtf8("sb_2canny_ht"));
         sb_2canny_ht->setMinimumSize(QSize(50, 0));
         sb_2canny_ht->setMaximumSize(QSize(50, 16777215));
@@ -615,7 +630,7 @@ public:
 
         gridLayout_2->addWidget(sb_2canny_ht, 1, 1, 1, 1);
 
-        lb_2canny_lt = new QLabel(layoutWidget2);
+        lb_2canny_lt = new QLabel(layoutWidget4);
         lb_2canny_lt->setObjectName(QString::fromUtf8("lb_2canny_lt"));
         sizePolicy3.setHeightForWidth(lb_2canny_lt->sizePolicy().hasHeightForWidth());
         lb_2canny_lt->setSizePolicy(sizePolicy3);
@@ -624,7 +639,7 @@ public:
 
         gridLayout_2->addWidget(lb_2canny_lt, 0, 0, 1, 1);
 
-        sb_2canny_lt = new QDoubleSpinBox(layoutWidget2);
+        sb_2canny_lt = new QDoubleSpinBox(layoutWidget4);
         sb_2canny_lt->setObjectName(QString::fromUtf8("sb_2canny_lt"));
         sb_2canny_lt->setMinimumSize(QSize(50, 0));
         sb_2canny_lt->setMaximumSize(QSize(50, 16777215));
@@ -635,7 +650,7 @@ public:
 
         gridLayout_2->addWidget(sb_2canny_lt, 0, 1, 1, 1);
 
-        hs_2canny_lt = new QSlider(layoutWidget2);
+        hs_2canny_lt = new QSlider(layoutWidget4);
         hs_2canny_lt->setObjectName(QString::fromUtf8("hs_2canny_lt"));
         sizePolicy4.setHeightForWidth(hs_2canny_lt->sizePolicy().hasHeightForWidth());
         hs_2canny_lt->setSizePolicy(sizePolicy4);
@@ -645,16 +660,16 @@ public:
 
         gridLayout_2->addWidget(hs_2canny_lt, 0, 2, 1, 1);
 
-        comba_2canny_ks = new QComboBox(layoutWidget2);
+        comba_2canny_ks = new QComboBox(layoutWidget4);
         comba_2canny_ks->addItem(QString());
         comba_2canny_ks->addItem(QString());
         comba_2canny_ks->addItem(QString());
         comba_2canny_ks->setObjectName(QString::fromUtf8("comba_2canny_ks"));
-        QSizePolicy sizePolicy8(QSizePolicy::Maximum, QSizePolicy::Fixed);
-        sizePolicy8.setHorizontalStretch(0);
-        sizePolicy8.setVerticalStretch(0);
-        sizePolicy8.setHeightForWidth(comba_2canny_ks->sizePolicy().hasHeightForWidth());
-        comba_2canny_ks->setSizePolicy(sizePolicy8);
+        QSizePolicy sizePolicy7(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(comba_2canny_ks->sizePolicy().hasHeightForWidth());
+        comba_2canny_ks->setSizePolicy(sizePolicy7);
         comba_2canny_ks->setMinimumSize(QSize(50, 0));
         comba_2canny_ks->setMaximumSize(QSize(50, 16777215));
 
@@ -673,12 +688,12 @@ public:
         cb_laplacian->setObjectName(QString::fromUtf8("cb_laplacian"));
         cb_laplacian->setGeometry(QRect(360, 60, 101, 23));
         tbw_sub->addTab(tab_cv, QString());
-        tab_pointSet = new QWidget();
-        tab_pointSet->setObjectName(QString::fromUtf8("tab_pointSet"));
-        tbw_sub->addTab(tab_pointSet, QString());
-        gb_baseInfo = new QGroupBox(centralwidget);
+        tab_map = new QWidget();
+        tab_map->setObjectName(QString::fromUtf8("tab_map"));
+        tbw_sub->addTab(tab_map, QString());
+        gb_baseInfo = new QGroupBox(tb_base);
         gb_baseInfo->setObjectName(QString::fromUtf8("gb_baseInfo"));
-        gb_baseInfo->setGeometry(QRect(620, 440, 501, 231));
+        gb_baseInfo->setGeometry(QRect(640, 440, 501, 261));
         groupBox = new QGroupBox(gb_baseInfo);
         groupBox->setObjectName(QString::fromUtf8("groupBox"));
         groupBox->setGeometry(QRect(0, 20, 151, 131));
@@ -730,18 +745,18 @@ public:
         groupBox_2 = new QGroupBox(gb_baseInfo);
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         groupBox_2->setGeometry(QRect(0, 150, 141, 80));
-        layoutWidget3 = new QWidget(groupBox_2);
-        layoutWidget3->setObjectName(QString::fromUtf8("layoutWidget3"));
-        layoutWidget3->setGeometry(QRect(10, 40, 131, 27));
-        formLayout_2 = new QFormLayout(layoutWidget3);
+        layoutWidget5 = new QWidget(groupBox_2);
+        layoutWidget5->setObjectName(QString::fromUtf8("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(10, 40, 131, 27));
+        formLayout_2 = new QFormLayout(layoutWidget5);
         formLayout_2->setObjectName(QString::fromUtf8("formLayout_2"));
         formLayout_2->setContentsMargins(0, 0, 0, 0);
-        lb_temperature = new QLabel(layoutWidget3);
+        lb_temperature = new QLabel(layoutWidget5);
         lb_temperature->setObjectName(QString::fromUtf8("lb_temperature"));
 
         formLayout_2->setWidget(0, QFormLayout::LabelRole, lb_temperature);
 
-        li_temperature = new QLineEdit(layoutWidget3);
+        li_temperature = new QLineEdit(layoutWidget5);
         li_temperature->setObjectName(QString::fromUtf8("li_temperature"));
         li_temperature->setEnabled(true);
         li_temperature->setDragEnabled(true);
@@ -831,39 +846,116 @@ public:
 
         formLayout_4->setWidget(2, QFormLayout::FieldRole, li_angle_z);
 
-        authersaid = new QLabel(centralwidget);
-        authersaid->setObjectName(QString::fromUtf8("authersaid"));
-        authersaid->setEnabled(false);
-        authersaid->setGeometry(QRect(850, 670, 321, 20));
-        authersaid->setText(QString::fromUtf8("reserved by gujunwei email:jerrygu.gjw@gmail.com"));
-        layoutWidget4 = new QWidget(centralwidget);
-        layoutWidget4->setObjectName(QString::fromUtf8("layoutWidget4"));
-        layoutWidget4->setGeometry(QRect(0, 0, 2, 2));
-        verticalLayout_6 = new QVBoxLayout(layoutWidget4);
-        verticalLayout_6->setObjectName(QString::fromUtf8("verticalLayout_6"));
-        verticalLayout_6->setContentsMargins(0, 0, 0, 0);
-        layoutWidget5 = new QWidget(centralwidget);
-        layoutWidget5->setObjectName(QString::fromUtf8("layoutWidget5"));
-        layoutWidget5->setGeometry(QRect(0, 0, 2, 2));
-        verticalLayout_7 = new QVBoxLayout(layoutWidget5);
-        verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
-        verticalLayout_7->setContentsMargins(0, 0, 0, 0);
+        tabWidget_2 = new QTabWidget(tb_base);
+        tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
+        tabWidget_2->setGeometry(QRect(10, 430, 611, 271));
+        tabWidget_2->setTabPosition(QTabWidget::West);
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        layoutWidget_4 = new QWidget(tab);
+        layoutWidget_4->setObjectName(QString::fromUtf8("layoutWidget_4"));
+        layoutWidget_4->setGeometry(QRect(0, 0, 581, 261));
+        verticalLayout_9 = new QVBoxLayout(layoutWidget_4);
+        verticalLayout_9->setSpacing(0);
+        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
+        verticalLayout_9->setContentsMargins(0, 0, 0, 0);
+        tx_showInfo_terminal = new QTextBrowser(layoutWidget_4);
+        tx_showInfo_terminal->setObjectName(QString::fromUtf8("tx_showInfo_terminal"));
+
+        verticalLayout_9->addWidget(tx_showInfo_terminal);
+
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setSpacing(0);
+        horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
+        horizontalLayout_10->setSizeConstraint(QLayout::SetMaximumSize);
+        li_Terminal = new QLineEdit(layoutWidget_4);
+        li_Terminal->setObjectName(QString::fromUtf8("li_Terminal"));
+
+        horizontalLayout_10->addWidget(li_Terminal);
+
+        bt_run = new QPushButton(layoutWidget_4);
+        bt_run->setObjectName(QString::fromUtf8("bt_run"));
+        bt_run->setEnabled(true);
+
+        horizontalLayout_10->addWidget(bt_run);
+
+        bt_clearRun = new QPushButton(layoutWidget_4);
+        bt_clearRun->setObjectName(QString::fromUtf8("bt_clearRun"));
+
+        horizontalLayout_10->addWidget(bt_clearRun);
+
+
+        verticalLayout_9->addLayout(horizontalLayout_10);
+
+        tabWidget_2->addTab(tab, QString());
+        tab_2 = new QWidget();
+        tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        layoutWidget6 = new QWidget(tab_2);
+        layoutWidget6->setObjectName(QString::fromUtf8("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(0, 0, 551, 261));
+        verticalLayout_8 = new QVBoxLayout(layoutWidget6);
+        verticalLayout_8->setSpacing(0);
+        verticalLayout_8->setObjectName(QString::fromUtf8("verticalLayout_8"));
+        verticalLayout_8->setContentsMargins(0, 0, 0, 0);
+        tx_showInfo = new QTextBrowser(layoutWidget6);
+        tx_showInfo->setObjectName(QString::fromUtf8("tx_showInfo"));
+
+        verticalLayout_8->addWidget(tx_showInfo);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(0);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        horizontalLayout_2->setSizeConstraint(QLayout::SetDefaultConstraint);
+        li_sendM = new QLineEdit(layoutWidget6);
+        li_sendM->setObjectName(QString::fromUtf8("li_sendM"));
+
+        horizontalLayout_2->addWidget(li_sendM);
+
+        bt_sendM = new QPushButton(layoutWidget6);
+        bt_sendM->setObjectName(QString::fromUtf8("bt_sendM"));
+        bt_sendM->setEnabled(false);
+
+        horizontalLayout_2->addWidget(bt_sendM);
+
+        bt_clearSendM = new QPushButton(layoutWidget6);
+        bt_clearSendM->setObjectName(QString::fromUtf8("bt_clearSendM"));
+
+        horizontalLayout_2->addWidget(bt_clearSendM);
+
+
+        verticalLayout_8->addLayout(horizontalLayout_2);
+
+        tabWidget_2->addTab(tab_2, QString());
+        tabWidget->addTab(tb_base, QString());
+        tab_runData = new QWidget();
+        tab_runData->setObjectName(QString::fromUtf8("tab_runData"));
+        tabWidget->addTab(tab_runData, QString());
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1167, 22));
+        menubar->setGeometry(QRect(0, 0, 1177, 22));
+        menutools = new QMenu(menubar);
+        menutools->setObjectName(QString::fromUtf8("menutools"));
+        menutools_2 = new QMenu(menubar);
+        menutools_2->setObjectName(QString::fromUtf8("menutools_2"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         MainWindow->setStatusBar(statusbar);
 
+        menubar->addAction(menutools->menuAction());
+        menubar->addAction(menutools_2->menuAction());
+        menutools_2->addAction(actionSerialTools);
+
         retranslateUi(MainWindow);
 
+        tabWidget->setCurrentIndex(0);
         tbw_main->setCurrentIndex(0);
         comba_imageTopics->setCurrentIndex(-1);
         tbw_sub->setCurrentIndex(0);
         comba_2binary_type->setCurrentIndex(0);
         comba_2canny_ks->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -872,14 +964,13 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "NICar", nullptr));
+        actionSerialTools->setText(QApplication::translate("MainWindow", "SerialTools", nullptr));
         lb_camImage->setText(QApplication::translate("MainWindow", "NO SIGNAL", nullptr));
         comba_imageTopics->setCurrentText(QString());
         bt_playCam->setText(QApplication::translate("MainWindow", "Play", nullptr));
         bt_saveImg->setText(QApplication::translate("MainWindow", "Save", nullptr));
         tbw_main->setTabText(tbw_main->indexOf(tb_camera), QApplication::translate("MainWindow", "Camera", nullptr));
         tbw_main->setTabText(tbw_main->indexOf(tb_rviz), QApplication::translate("MainWindow", "Rviz", nullptr));
-        bt_sendM->setText(QApplication::translate("MainWindow", "Send", nullptr));
-        bt_clearSendM->setText(QApplication::translate("MainWindow", "Clear", nullptr));
         gb_connections->setTitle(QApplication::translate("MainWindow", "Ros_Master_URL", nullptr));
         lb_ipAdd->setText(QApplication::translate("MainWindow", "IP:", nullptr));
         li_ipAdd->setText(QString());
@@ -903,7 +994,7 @@ public:
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        tb_chooseSaveDir->setPlaceholderText(QApplication::translate("MainWindow", "Choose save dir", nullptr));
+        tb_chooseSaveDir->setPlaceholderText(QApplication::translate("MainWindow", "Choose Save Dir", nullptr));
         bt_chooseSaveDir->setText(QApplication::translate("MainWindow", "Choose Dir", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_image), QApplication::translate("MainWindow", "Image", nullptr));
         gb_imagePro->setTitle(QApplication::translate("MainWindow", "Image Process", nullptr));
@@ -931,7 +1022,7 @@ public:
         cb_enhancement->setText(QApplication::translate("MainWindow", "NightBoost", nullptr));
         cb_laplacian->setText(QApplication::translate("MainWindow", "Laplacian", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_cv), QApplication::translate("MainWindow", "CV", nullptr));
-        tbw_sub->setTabText(tbw_sub->indexOf(tab_pointSet), QApplication::translate("MainWindow", "Point", nullptr));
+        tbw_sub->setTabText(tbw_sub->indexOf(tab_map), QApplication::translate("MainWindow", "Map", nullptr));
         gb_baseInfo->setTitle(QApplication::translate("MainWindow", "  NICar INFO", nullptr));
         groupBox->setTitle(QApplication::translate("MainWindow", "\346\226\271\345\220\221", nullptr));
         lb_x->setText(QApplication::translate("MainWindow", "X :", nullptr));
@@ -947,6 +1038,16 @@ public:
         lb_angel_x->setText(QApplication::translate("MainWindow", "X :", nullptr));
         lb_angel_y->setText(QApplication::translate("MainWindow", "Y :", nullptr));
         lb_angel_z->setText(QApplication::translate("MainWindow", "Z :", nullptr));
+        bt_run->setText(QApplication::translate("MainWindow", "Run", nullptr));
+        bt_clearRun->setText(QApplication::translate("MainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QApplication::translate("MainWindow", "Terminal", nullptr));
+        bt_sendM->setText(QApplication::translate("MainWindow", "Send", nullptr));
+        bt_clearSendM->setText(QApplication::translate("MainWindow", "Clear", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QApplication::translate("MainWindow", "Socket", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tb_base), QApplication::translate("MainWindow", "Base", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_runData), QApplication::translate("MainWindow", "Data", nullptr));
+        menutools->setTitle(QApplication::translate("MainWindow", "files", nullptr));
+        menutools_2->setTitle(QApplication::translate("MainWindow", "tools", nullptr));
     } // retranslateUi
 
 };

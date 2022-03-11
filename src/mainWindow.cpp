@@ -6,7 +6,7 @@ mainWindow::mainWindow(void)
     ui->setupUi(this);
     readSettings();
     windowInit();
-
+    
     foreach (QHostAddress address, QNetworkInterface::allAddresses())
     {
         if (address.protocol() == QAbstractSocket::IPv4Protocol)
@@ -26,6 +26,9 @@ mainWindow::mainWindow(void)
 
     QObject::connect(ui->bt_sendM, SIGNAL(clicked(void)), this, SLOT(sendMessage(void)));
     QObject::connect(ui->bt_clearSendM, SIGNAL(clicked(void)), this, SLOT(clear_li_sendM(void)));
+
+    QObject::connect(ui->bt_run, SIGNAL(clicked(void)), this, SLOT(runComand(void)));
+    QObject::connect(ui->bt_clearRun, SIGNAL(clicked(void)), this, SLOT(clear_li_terminal(void)));
 
     QObject::connect(&qnode, SIGNAL(sendInfoMes(QString)), this, SLOT(showRosMes(QString)));
     QObject::connect(&qnode, SIGNAL(sendImage(QImage)), this, SLOT(updateImage(QImage)));
@@ -56,11 +59,11 @@ void mainWindow::readSettings(void)
 {
     Json::Reader reader;
     Json::Value root;
-    std::ifstream inFile("src/nicar_gui/src/settings.json", std::ios::binary);
+    std::ifstream inFile("src/nicar_gui/.config/settings.json", std::ios::binary);
 
     if (!inFile.is_open())
     {
-        ui->tx_showInfo->append(showInfo("Error 1000: Read settins file failed! Please put setting.json in \"src/nicar_gui/src/settings.json\""));
+        ui->tx_showInfo->append(showInfo("Error 1000: Read settins file failed! \nCheck if settings.json is in \"src/nicar_gui/.config/settings.json\""));
         return;
     }
     if (reader.parse(inFile, root))
@@ -87,7 +90,17 @@ void mainWindow::windowInit()
 
 void mainWindow::connectToMaster(void)
 {
-    if (!ui->li_ipAdd->text().isEmpty())
+    if (ui->li_ipPort->text() != "11311"){
+        if(socketIns.socketInit((char *)ui->li_ipAdd->text().toStdString().data(), atoi((char*)(ui->li_ipPort->text().toStdString().c_str())))){
+                //std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
+    //task01.detach();
+            ui->tx_showInfo->append(showInfo("Connecte to Server ") + ui->li_ipAdd->text() + " on Port " + ui->li_ipPort->text());
+        }
+        ui->bt_sendM->setEnabled(true);
+    }
+
+   else {
+        if (!ui->li_ipAdd->text().isEmpty())
     {
         currentRosIp = ui->li_ipAdd->text();
     }
@@ -116,6 +129,7 @@ void mainWindow::connectToMaster(void)
     {
         ui->tx_showInfo->append(showInfo("Error 1001: Connect failed"));
     }
+    }
 }
 
 QString mainWindow::showInfo(QString qstr)
@@ -143,7 +157,7 @@ void mainWindow::initTopicList()
     for (QMap<QString, QString>::iterator iter = topic_list.begin(); iter != topic_list.end(); iter++)
     {
         ui->lt_topics->addItem(QString("%1   (%2)").arg(iter.key(), iter.value()));
-        if (iter.key().split("/")[1] == "camera")
+        if (iter.key().contains("camera",Qt::CaseSensitive) || iter.key().contains("image",Qt::CaseSensitive))
         {
             ui->comba_imageTopics->addItem(QString("%1").arg(iter.key()));
         }
@@ -178,7 +192,7 @@ void mainWindow::saveValues(void)
 {
     Json::Value root;
     Json::Reader reader;
-    std::ifstream outFile("src/nicar_gui/src/settings.json");
+    std::ifstream outFile("src/nicar_gui/.config/settings.json");
     if (!outFile.is_open())
     {
         ui->tx_showInfo->append(showInfo("Error 1002: Failed to open setting fils,please check the fileDir!"));
@@ -202,25 +216,42 @@ void mainWindow::saveValues(void)
         Json::StyledWriter writer;
         std::string strWrite = writer.write(root);
         std::ofstream ofs;
-        ofs.open("settings.json");
+        ofs.open("src/nicar_gui/.config/settings.json");
         ofs << strWrite;
         ofs.close();
         ui->tx_showInfo->append(showInfo("Values Saved!"));
     }
 }
+//run command
+void mainWindow::runComand(void){
+    cmdHandle = new QProcess;
+    cmdHandle->start("bash");
+    cmdHandle->write(ui->li_Terminal->text().toLocal8Bit()+"\n");
+    connect(cmdHandle, SIGNAL(readyReadStandardError()), this, SLOT(terminal_output()));
+    ui->li_sendM->clear();
+}
+
+void mainWindow::terminal_output(void){
+    ui->tx_showInfo_terminal->append(cmdHandle->readAllStandardError());
+}
+
+void mainWindow::clear_li_terminal(void){
+    ui->li_Terminal->clear();
+}
 
 // socket commu(To be improved)
 void mainWindow::sendMessage(void)
 {
-    std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
-    task01.detach();
-    ui->tx_showInfo->append(remoteInfo(QString::fromStdString(socketIns.sendMessage("t2"))));
+    //std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
+    //task01.detach();
+    ui->tx_showInfo->append(remoteInfo(QString::fromStdString(socketIns.sendMessage(ui->li_sendM->text().toStdString().c_str()))));
     ui->li_sendM->clear();
 }
 
 void mainWindow::clear_li_sendM(void)
 {
     ui->li_sendM->clear();
+    
 }
 
 // Ros Topics
@@ -265,7 +296,6 @@ void mainWindow::slot_bt_play_clicked(void)
 {
     if (ui->bt_playCam->text() == "Play")
     {
-        ui->bt_playCam->setText("Cancel");
         // LocalCamera(0)
         if (ui->comba_imageTopics->currentText().contains("LocalCamera"))
         {
@@ -278,6 +308,7 @@ void mainWindow::slot_bt_play_clicked(void)
         }
 
         ui->bt_saveImg->setEnabled(true);
+        ui->bt_playCam->setText("Cancel");
     }
     else
     {
@@ -372,3 +403,12 @@ void mainWindow::slot_bt_saveImg_clicked(void)
         ui->tx_showInfo->append(showInfo("Error occurred! Not Saved!"));
     }
 }
+
+/*********************************
+ *             Plot              *
+ * ******************************/
+// InitPlot
+
+void mainWindow::initPlot(){
+}
+

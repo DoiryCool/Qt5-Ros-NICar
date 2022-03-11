@@ -1,10 +1,6 @@
-#include <string.h>
-#include <boost/python.hpp>
-#include "../include/mainWindow.h"
-
 #include <QApplication>
-
-
+#include <string.h>
+#include "../include/mainWindow.h"
 
 int main(int argc, char* argv[]){
     QApplication app(argc, argv);

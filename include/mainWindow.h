@@ -4,6 +4,7 @@
 #include <QTime>
 #include <QString>
 #include <QScreen>
+#include <QProcess>
 #include <QHostAddress>
 #include <QPlainTextEdit>
 #include <QAbstractSocket>
@@ -55,6 +56,7 @@ private:
     Ui::MainWindow* ui;
     qNode qnode;
     imagePro imageManager;
+    QProcess * cmdHandle;
 
 public:
     mainWindow(void);
@@ -66,6 +68,7 @@ public:
     void subImageTopic(QString top_name);
 
     void initTopicList();
+    void initPlot();
 
 public slots:
     void sendMessage(void);
@@ -86,6 +89,10 @@ public slots:
     //imagePro
     void slot_imageProChecked(void);
     void slot_bt_saveImg_clicked(void);
+    //terminal
+    void runComand(void);
+    void terminal_output(void);
+    void clear_li_terminal(void);
 
 signals:
 

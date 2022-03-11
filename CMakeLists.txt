@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(nicar_gui)
 
+include_directories(include ${catkin_INCLUDE_DIRS})
+
 set(lib_DIR /usr/lib/x84_64-linux-gnu)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -24,15 +26,16 @@ find_package(catkin REQUIRED COMPONENTS
 	image_transport
 	tf2_ros
 	tf2_geometry_msgs
+	message_generation
 )
 
 find_package(OpenCV REQUIRED)
 find_package(PythonLibs REQUIRED)
 find_package(Threads REQUIRED)
-
 find_package(Qt5 REQUIRED COMPONENTS 
 Network
-Widgets 
+Widgets
+Core
 )
 
 include_directories(
@@ -45,11 +48,14 @@ file(GLOB_RECURSE cxx_src "src/*.cpp" "include/*.h" "include/*.hpp")
 
 
 add_executable(${PROJECT_NAME} ${cxx_src})
+
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 	${catkin_LIBRARIES}
 	${OpenCV_LIBS}
 	${PYTHON_LIBRARIES}
+	PUBLIC
+	Qt5::Core
     Qt5::Widgets
 	Qt5::Network
     Threads::Threads
