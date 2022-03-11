@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>nicar_gui</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The nicar_gui package</description>
   <maintainer email="jerrygu.gjw@gmail.com">JW. Gu</maintainer>
     <license>GPLv2</license>
