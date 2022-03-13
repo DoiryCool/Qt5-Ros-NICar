@@ -6,7 +6,8 @@ mainWindow::mainWindow(void)
     ui->setupUi(this);
     readSettings();
     windowInit();
-    
+
+    cmdHandle->start("bash");
     foreach (QHostAddress address, QNetworkInterface::allAddresses())
     {
         if (address.protocol() == QAbstractSocket::IPv4Protocol)
@@ -29,6 +30,8 @@ mainWindow::mainWindow(void)
 
     QObject::connect(ui->bt_run, SIGNAL(clicked(void)), this, SLOT(runComand(void)));
     QObject::connect(ui->bt_clearRun, SIGNAL(clicked(void)), this, SLOT(clear_li_terminal(void)));
+    QObject::connect(cmdHandle, SIGNAL(readyReadStandardError()), this, SLOT(terminal_output()));
+    QObject::connect(cmdHandle, SIGNAL(readyReadStandardOutput()), this, SLOT(terminal_output()));
 
     QObject::connect(&qnode, SIGNAL(sendInfoMes(QString)), this, SLOT(showRosMes(QString)));
     QObject::connect(&qnode, SIGNAL(sendImage(QImage)), this, SLOT(updateImage(QImage)));
@@ -63,7 +66,7 @@ void mainWindow::readSettings(void)
 
     if (!inFile.is_open())
     {
-        ui->tx_showInfo->append(showInfo("Error 1000: Read settins file failed! \nCheck if settings.json is in \"src/nicar_gui/.config/settings.json\""));
+        terminal_info("Error 1000: Read settings file failed! \nCheck if settings.json is in \"src/nicar_gui/.config/settings.json\"");
         return;
     }
     if (reader.parse(inFile, root))
@@ -86,58 +89,66 @@ void mainWindow::windowInit()
     this->move((screenRect.width() - this->width()) / 2,
                (screenRect.height() - this->height()) / 2);
     ui->comba_imageTopics->addItem(QString("%1   (%2)").arg("LocalCamera(0)", "Mat"));
+
+    cmdHandle = new QProcess;
 }
 
 void mainWindow::connectToMaster(void)
 {
-    if (ui->li_ipPort->text() != "11311"){
-        if(socketIns.socketInit((char *)ui->li_ipAdd->text().toStdString().data(), atoi((char*)(ui->li_ipPort->text().toStdString().c_str())))){
-                //std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
-    //task01.detach();
-            ui->tx_showInfo->append(showInfo("Connecte to Server ") + ui->li_ipAdd->text() + " on Port " + ui->li_ipPort->text());
+    if (ui->li_ipPort->text() != "11311")
+    {
+        if (socketIns.socketInit((char *)ui->li_ipAdd->text().toStdString().data(), atoi((char *)(ui->li_ipPort->text().toStdString().c_str()))))
+        {
+            // std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
+            // task01.detach();
+            terminal_info("Connecte to Server ") + ui->li_ipAdd->text() + " on Port " + ui->li_ipPort->text();
         }
         ui->bt_sendM->setEnabled(true);
     }
 
-   else {
-        if (!ui->li_ipAdd->text().isEmpty())
-    {
-        currentRosIp = ui->li_ipAdd->text();
-    }
-    if (!ui->li_ipPort->text().isEmpty())
-    {
-        currentPort = ui->li_ipPort->text();
-    }
-
-    RosMasterURL.append("http://" + currentRosIp + ":" + currentPort);
-
-    if (qnode.nodeInit(RosMasterURL.toStdString(), localIP.toStdString()))
-    {
-        ui->statusColor->setStyleSheet(QString::fromUtf8("background-color:rgb(0, 164, 0)"));
-        ui->lb_status->setText("Online");
-        ui->bt_sendM->setEnabled(true);
-        ui->li_ipAdd->setReadOnly(true);
-        ui->bt_playCam->setEnabled(true);
-        ui->li_ipPort->setReadOnly(true);
-        ui->bt_connectR->setText("Disconnect");
-        ui->li_ipAdd->setText(currentRosIp);
-        ui->li_ipPort->setText(currentPort);
-        status = true;
-        initTopicList();
-    }
     else
     {
-        ui->tx_showInfo->append(showInfo("Error 1001: Connect failed"));
-    }
+        if (!ui->li_ipAdd->text().isEmpty())
+        {
+            currentRosIp = ui->li_ipAdd->text();
+        }
+        if (!ui->li_ipPort->text().isEmpty())
+        {
+            currentPort = ui->li_ipPort->text();
+        }
+
+        RosMasterURL.append("http://" + currentRosIp + ":" + currentPort);
+
+        if (qnode.nodeInit(RosMasterURL.toStdString(), localIP.toStdString()))
+        {
+            ui->statusColor->setStyleSheet(QString::fromUtf8("background-color:rgb(0, 164, 0)"));
+            ui->lb_status->setText("Online");
+            ui->bt_sendM->setEnabled(true);
+            ui->li_ipAdd->setReadOnly(true);
+            ui->bt_playCam->setEnabled(true);
+            ui->li_ipPort->setReadOnly(true);
+            ui->bt_connectR->setText("Disconnect");
+            ui->li_ipAdd->setText(currentRosIp);
+            ui->li_ipPort->setText(currentPort);
+            status = true;
+            QString cmd = "rosrun image_transport republish compressed in:=/camera raw out:=camera/lowBandWidth";
+            cmdHandle->write(cmd.toLocal8Bit() + "\n");
+            initTopicList();
+        }
+        else
+        {
+            terminal_info("Error 1001: Connect failed");
+        }
     }
 }
 
-QString mainWindow::showInfo(QString qstr)
+bool mainWindow::terminal_info(QString qstr)
 {
     QTime currentTime = QTime::currentTime();
     QString showtext;
     showtext.append("[" + currentTime.toString() + "]  :   " + qstr);
-    return showtext;
+    ui->tx_showInfo_terminal->append(showtext);
+    return true;
 }
 
 QString mainWindow::remoteInfo(QString qstr)
@@ -157,9 +168,10 @@ void mainWindow::initTopicList()
     for (QMap<QString, QString>::iterator iter = topic_list.begin(); iter != topic_list.end(); iter++)
     {
         ui->lt_topics->addItem(QString("%1   (%2)").arg(iter.key(), iter.value()));
-        if (iter.key().contains("camera",Qt::CaseSensitive) || iter.key().contains("image",Qt::CaseSensitive))
+        if (iter.key().contains("camera", Qt::CaseSensitive) || iter.key().contains("image", Qt::CaseSensitive))
         {
-            ui->comba_imageTopics->addItem(QString("%1").arg(iter.key()));
+            if (!iter.key().contains("compressed", Qt::CaseSensitive) || !iter.key().contains("theora", Qt::CaseSensitive))
+                ui->comba_imageTopics->addItem(QString("%1").arg(iter.key()));
         }
     }
 }
@@ -181,7 +193,7 @@ void mainWindow::bt_connectR_clicked(void)
         ui->bt_sendM->setEnabled(false);
         ui->li_ipAdd->setReadOnly(false);
         ui->li_ipPort->setReadOnly(false);
-        ui->tx_showInfo->append(showInfo("Disconnected!"));
+        terminal_info("Disconnected!");
         ui->bt_connectR->setText("Connect");
         ui->lt_topics->clear();
         status = false;
@@ -195,14 +207,14 @@ void mainWindow::saveValues(void)
     std::ifstream outFile("src/nicar_gui/.config/settings.json");
     if (!outFile.is_open())
     {
-        ui->tx_showInfo->append(showInfo("Error 1002: Failed to open setting fils,please check the fileDir!"));
+        terminal_info("Error 1002: Failed to open setting fils,please check the fileDir!");
         return;
     }
     else if (reader.parse(outFile, root))
     {
         if (ui->li_ipAdd->text().toStdString() == "" || ui->li_ipAdd->text().toStdString() == "")
         {
-            ui->tx_showInfo->append(showInfo("Error 1003: You should enter IP and Port!"));
+            terminal_info("Error 1003: You should enter IP and Port!");
             return;
         }
         root["defaultRosIp"] = ui->li_ipAdd->text().toStdString();
@@ -219,31 +231,33 @@ void mainWindow::saveValues(void)
         ofs.open("src/nicar_gui/.config/settings.json");
         ofs << strWrite;
         ofs.close();
-        ui->tx_showInfo->append(showInfo("Values Saved!"));
+        terminal_info("Values Saved!");
     }
 }
-//run command
-void mainWindow::runComand(void){
-    cmdHandle = new QProcess;
-    cmdHandle->start("bash");
-    cmdHandle->write(ui->li_Terminal->text().toLocal8Bit()+"\n");
-    connect(cmdHandle, SIGNAL(readyReadStandardError()), this, SLOT(terminal_output()));
-    ui->li_sendM->clear();
+// run command
+void mainWindow::runComand(void)
+{
+    cmdHandle->write(ui->li_Terminal->text().toLocal8Bit() + "\n");
+    terminal_info(QString::number(cmdHandle->processId()));
+    ui->li_Terminal->clear();
 }
 
-void mainWindow::terminal_output(void){
-    ui->tx_showInfo_terminal->append(cmdHandle->readAllStandardError());
+void mainWindow::terminal_output(void)
+{
+    terminal_info("@remote  :  " + cmdHandle->readAllStandardError());
+    terminal_info("@remote  :  " + cmdHandle->readAllStandardOutput());
 }
 
-void mainWindow::clear_li_terminal(void){
+void mainWindow::clear_li_terminal(void)
+{
     ui->li_Terminal->clear();
 }
 
 // socket commu(To be improved)
 void mainWindow::sendMessage(void)
 {
-    //std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
-    //task01.detach();
+    // std::thread task01(&socketCommunication::sendMessage, socketIns, ui->li_sendM->text().toStdString().c_str());
+    // task01.detach();
     ui->tx_showInfo->append(remoteInfo(QString::fromStdString(socketIns.sendMessage(ui->li_sendM->text().toStdString().c_str()))));
     ui->li_sendM->clear();
 }
@@ -251,7 +265,6 @@ void mainWindow::sendMessage(void)
 void mainWindow::clear_li_sendM(void)
 {
     ui->li_sendM->clear();
-    
 }
 
 // Ros Topics
@@ -262,7 +275,7 @@ void mainWindow::updateTemperature(QString tempVal)
 
 void mainWindow::showRosMes(QString fromR)
 {
-    ui->tx_showInfo->append(remoteInfo(fromR));
+    ui->tx_showInfo_terminal->append(remoteInfo(fromR));
 }
 
 void mainWindow::updateImage(QImage img)
@@ -321,7 +334,7 @@ void mainWindow::playLocalCamera(void)
 {
     if (!capture.open(0))
     {
-        ui->tx_showInfo->append(showInfo("Error 2001: Camera open failed! Is it connected?"));
+        terminal_info("Error 2001: Camera open failed! Is it connected?");
         return;
     }
     cv::Mat gatImg;
@@ -396,11 +409,11 @@ void mainWindow::slot_bt_saveImg_clicked(void)
 {
     if (imageManager.saveImage(qnode.getPicture()))
     {
-        ui->tx_showInfo->append(showInfo("Image Saved!"));
+        terminal_info("Image Saved!");
     }
     else
     {
-        ui->tx_showInfo->append(showInfo("Error occurred! Not Saved!"));
+        terminal_info("Error occurred! Not Saved!");
     }
 }
 
@@ -409,6 +422,17 @@ void mainWindow::slot_bt_saveImg_clicked(void)
  * ******************************/
 // InitPlot
 
-void mainWindow::initPlot(){
+void mainWindow::initPlot()
+{
+
 }
 
+void mainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if( event ->matches( QKeySequence::Copy ) )
+  {
+    cmdHandle->write(" ^C\n");
+    terminal_info("Canceled!");
+  }
+  QMainWindow::keyPressEvent( event );
+}

@@ -62,7 +62,7 @@ public:
     mainWindow(void);
     void readSettings(void);
     void windowInit(void);
-    QString showInfo(QString);
+    bool terminal_info(QString);
     QString remoteInfo(QString);
 
     void subImageTopic(QString top_name);
@@ -70,6 +70,7 @@ public:
     void initTopicList();
     void initPlot();
 
+    void keyPressEvent(QKeyEvent *event);
 public slots:
     void sendMessage(void);
     void clear_li_sendM(void);

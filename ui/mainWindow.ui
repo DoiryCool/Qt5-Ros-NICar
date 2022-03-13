@@ -1398,7 +1398,14 @@ p, li { white-space: pre-wrap; }
           <number>0</number>
          </property>
          <item>
-          <widget class="QTextBrowser" name="tx_showInfo_terminal"/>
+          <widget class="QTextBrowser" name="tx_showInfo_terminal">
+           <property name="mouseTracking">
+            <bool>false</bool>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_10">

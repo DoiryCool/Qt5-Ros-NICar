@@ -1,5 +1,5 @@
 {
-   "defaultRosIp" : "124.223.196.177",
+   "defaultRosIp" : "172.18.192.236",
    "port" : "11311",
    "saveImgNameRule" : "catImage"
 }

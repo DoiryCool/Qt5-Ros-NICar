@@ -861,6 +861,8 @@ public:
         verticalLayout_9->setContentsMargins(0, 0, 0, 0);
         tx_showInfo_terminal = new QTextBrowser(layoutWidget_4);
         tx_showInfo_terminal->setObjectName(QString::fromUtf8("tx_showInfo_terminal"));
+        tx_showInfo_terminal->setMouseTracking(false);
+        tx_showInfo_terminal->setFocusPolicy(Qt::StrongFocus);
 
         verticalLayout_9->addWidget(tx_showInfo_terminal);
 
