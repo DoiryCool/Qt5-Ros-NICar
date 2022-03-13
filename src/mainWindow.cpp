@@ -244,8 +244,8 @@ void mainWindow::runComand(void)
 
 void mainWindow::terminal_output(void)
 {
-    terminal_info("@remote  :  " + cmdHandle->readAllStandardError());
-    terminal_info("@remote  :  " + cmdHandle->readAllStandardOutput());
+    terminal_info("remote  :  " + cmdHandle->readAllStandardError());
+    terminal_info("remote  :  " + cmdHandle->readAllStandardOutput());
 }
 
 void mainWindow::clear_li_terminal(void)
@@ -353,10 +353,12 @@ void mainWindow::slot_imageProChecked(void)
     if (ui->cb_2gray->isChecked())
     {
         qnode.img._grayConfig = true;
+        imageManager.imageProcessVectorAdd(_2Gray_V);
     }
     else
     {
         qnode.img._grayConfig = false;
+        imageManager.imageProcessVectorDelete(_2Gray_V);
     }
 
     if (ui->cb_2binary->isChecked())
@@ -368,10 +370,18 @@ void mainWindow::slot_imageProChecked(void)
 
         ui->sb_2binary_threshold->setValue(ui->hs_2binary_threshold->value());
         ui->sb_2binary_maxval->setValue(ui->hs_2binary_maxval->value());
+        imageManager.imageProcessVectorAdd(_2Binary_V);
     }
     else
     {
         qnode.img._binaryConfig._ifBinary = false;
+        qnode.img._binaryConfig.threshold = ui->hs_2binary_threshold->value();
+        qnode.img._binaryConfig.max_value = ui->hs_2binary_maxval->value();
+        qnode.img._binaryConfig.threshold_type = ui->comba_2binary_type->currentIndex();
+
+        ui->sb_2binary_threshold->setValue(ui->hs_2binary_threshold->value());
+        ui->sb_2binary_maxval->setValue(ui->hs_2binary_maxval->value());
+        imageManager.imageProcessVectorDelete(_2Binary_V);
     }
     if (ui->cb_2canny->isChecked())
     {
@@ -382,26 +392,32 @@ void mainWindow::slot_imageProChecked(void)
 
         ui->sb_2canny_lt->setValue(ui->hs_2canny_lt->value());
         ui->sb_2canny_ht->setValue(ui->hs_2canny_ht->value());
+        imageManager.imageProcessVectorAdd(_2Canny_V);
     }
     else
     {
         qnode.img._cannyConfig._ifCanny = false;
+        imageManager.imageProcessVectorDelete(_2Canny_V);
     }
     if (ui->cb_enhancement->isChecked())
     {
         qnode.img._logEnhance = true;
+        imageManager.imageProcessVectorAdd(_nightBoost_V);
     }
     else
     {
         qnode.img._logEnhance = false;
+        imageManager.imageProcessVectorDelete(_nightBoost_V);
     }
     if (ui->cb_laplacian->isChecked())
     {
         qnode.img._laplacian = true;
+        imageManager.imageProcessVectorAdd(_laplacian_V);
     }
     else
     {
         qnode.img._laplacian = false;
+        imageManager.imageProcessVectorDelete(_laplacian_V);
     }
 }
 
@@ -424,15 +440,17 @@ void mainWindow::slot_bt_saveImg_clicked(void)
 
 void mainWindow::initPlot()
 {
-
 }
 
 void mainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if( event ->matches( QKeySequence::Copy ) )
-  {
-    cmdHandle->write(" ^C\n");
-    terminal_info("Canceled!");
-  }
-  QMainWindow::keyPressEvent( event );
+    if (event->matches(QKeySequence::Copy))
+    {
+        cmdHandle->write("^C");
+        for (int i = 0; i < imageManager.returnImageProcessVector().size(); ++i)
+        {
+            terminal_info(QString::number(imageManager.returnImageProcessVector()[i]));
+        }
+    }
+    QMainWindow::keyPressEvent(event);
 }

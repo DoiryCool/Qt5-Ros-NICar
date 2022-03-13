@@ -6,12 +6,19 @@
 #include <opencv2/opencv.hpp>
 #include <QImage>
 
+#define _2Gray_V 1
+#define _2Binary_V 2
+#define _2Canny_V 3
+#define _nightBoost_V 4
+#define _laplacian_V 5
+
 /*********************************
  *             Struct             *
  *********************************/
 
 static QString __imgSaveDir = "../Images/";
 static QString __imgSaveNameRule;
+static QVector<int> staticImageProcessVector;
 
 struct _2canny
 {
@@ -41,6 +48,9 @@ struct imgConfig
 class imagePro
 {
 public:
+    bool imageProcessVectorAdd(int);
+    bool imageProcessVectorDelete(int);
+    QVector<int> returnImageProcessVector(void);
     imagePro(void);
     //file
     bool saveImage(cv::Mat const &);

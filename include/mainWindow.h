@@ -58,6 +58,7 @@ private:
     imagePro imageManager;
     QProcess * cmdHandle;
 
+    
 public:
     mainWindow(void);
     void readSettings(void);

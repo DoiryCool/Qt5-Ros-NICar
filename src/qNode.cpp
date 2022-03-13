@@ -89,31 +89,32 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     {
         cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         des = cv_ptr->image;
-        if (img._laplacian == true)
+        for (int i = 0; i < imageManager.returnImageProcessVector().size(); i++)
         {
-            des = imageManager.Laplacian(des);
+            switch (imageManager.returnImageProcessVector()[i])
+            {
+            case _2Gray_V:
+                cv::cvtColor(des, des, cv::COLOR_BGR2GRAY);
+                break;
+            case _2Binary_V:
+                cv::threshold(
+                    des,
+                    des,
+                    img._binaryConfig.threshold,
+                    img._binaryConfig.max_value, (img._binaryConfig.threshold_type == 5) ? 8 : img._binaryConfig.threshold_type);
+                break;
+            case _2Canny_V:
+                cv::Canny(des, des, img._cannyConfig.lowThreshold, img._cannyConfig.highThreshold, img._cannyConfig.Kernel_size);
+                break;
+            case _nightBoost_V:
+                des = des = imageManager.logEnhance(des);
+                break;
+            case _laplacian_V:
+                des = imageManager.Laplacian(des);
+                break;
+            }
         }
-        if (img._logEnhance == true)
-        {
-            des = imageManager.logEnhance(des);
-        }
-        if (img._grayConfig == true)
-        {
-            cv::cvtColor(des, des, cv::COLOR_BGR2GRAY);
-        }
-        if (img._binaryConfig._ifBinary == true)
-        {
-            cv::threshold(
-                des,
-                des,
-                img._binaryConfig.threshold,
-                img._binaryConfig.max_value, (img._binaryConfig.threshold_type == 5) ? 8 : img._binaryConfig.threshold_type);
-        }
-        if (img._cannyConfig._ifCanny == true)
-        {
-            cv::Canny(des, des, img._cannyConfig.lowThreshold, img._cannyConfig.highThreshold, img._cannyConfig.Kernel_size);
-        }
-        
+
         QImage im = imageManager.Mat2QImage(des);
         emit sendImage(im);
     }
@@ -142,7 +143,8 @@ QMap<QString, QString> qNode::get_topic_list()
     return res;
 }
 
-cv::Mat qNode::getPicture(void){
+cv::Mat qNode::getPicture(void)
+{
     return cv_ptr->image;
 }
 qNode::~qNode(void)

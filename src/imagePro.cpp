@@ -1,10 +1,10 @@
 #include "../include/imagePro.hpp"
 
-imagePro::imagePro(void){
-
+imagePro::imagePro(void)
+{
 }
 
-//file
+// file
 bool imagePro::saveImage(cv::Mat const &src)
 {
     __imgSaveDir = "../Images/";
@@ -32,12 +32,12 @@ cv::Mat imagePro::logEnhance(cv::Mat src)
 }
 
 cv::Mat imagePro::Laplacian(cv::Mat src)
-{  
-    cv::Mat LaplacianImg;  
-    cv::Mat kernel = (cv::Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);  
-    filter2D(src, LaplacianImg, CV_8UC3, kernel);  
+{
+    cv::Mat LaplacianImg;
+    cv::Mat kernel = (cv::Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
+    filter2D(src, LaplacianImg, CV_8UC3, kernel);
     return LaplacianImg;
-}  
+}
 
 // utils
 QImage imagePro::Mat2QImage(cv::Mat const &src)
@@ -96,4 +96,43 @@ QImage imagePro::Mat2QImage(cv::Mat const &src)
     }
 
     return dest;
+}
+
+bool imagePro::imageProcessVectorAdd(int number)
+{
+    QVector<int>::iterator itr = staticImageProcessVector.begin();
+    while (itr != staticImageProcessVector.end())
+    {
+        if (*itr == number)
+        {
+            return false;
+        }
+        else
+        {
+            ++itr;
+        }
+    }
+    staticImageProcessVector.append(number);
+    return true;
+}
+
+bool imagePro::imageProcessVectorDelete(int number)
+{
+    QVector<int>::iterator itr = staticImageProcessVector.begin();
+    while (itr != staticImageProcessVector.end())
+    {
+        if (*itr == number)
+        {
+            itr = staticImageProcessVector.erase(itr);
+        }
+        else
+        {
+            ++itr;
+        }
+    }
+    return true;
+}
+
+QVector<int> imagePro::returnImageProcessVector(void){
+    return staticImageProcessVector;
 }

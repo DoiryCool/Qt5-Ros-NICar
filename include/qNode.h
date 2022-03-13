@@ -20,6 +20,7 @@
 // cv-utils
 #include "imagePro.hpp"
 
+static QVector<int> imageVector;
 struct imuVector
 {
     float x;
