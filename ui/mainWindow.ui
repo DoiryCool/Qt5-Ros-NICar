@@ -1090,6 +1090,19 @@ p, li { white-space: pre-wrap; }
           <string>Laplacian</string>
          </property>
         </widget>
+        <widget class="QCheckBox" name="cb_decompressed">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>320</y>
+           <width>121</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Decompressed</string>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_map">

@@ -147,6 +147,7 @@ cv::Mat qNode::getPicture(void)
 {
     return cv_ptr->image;
 }
+
 qNode::~qNode(void)
 {
     if (ros::isStarted())

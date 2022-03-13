@@ -124,6 +124,7 @@ public:
     QComboBox *comba_2canny_ks;
     QCheckBox *cb_enhancement;
     QCheckBox *cb_laplacian;
+    QCheckBox *cb_decompressed;
     QWidget *tab_map;
     QGroupBox *gb_baseInfo;
     QGroupBox *groupBox;
@@ -687,6 +688,9 @@ public:
         cb_laplacian = new QCheckBox(gb_imagePro);
         cb_laplacian->setObjectName(QString::fromUtf8("cb_laplacian"));
         cb_laplacian->setGeometry(QRect(360, 60, 101, 23));
+        cb_decompressed = new QCheckBox(gb_imagePro);
+        cb_decompressed->setObjectName(QString::fromUtf8("cb_decompressed"));
+        cb_decompressed->setGeometry(QRect(10, 320, 121, 23));
         tbw_sub->addTab(tab_cv, QString());
         tab_map = new QWidget();
         tab_map->setObjectName(QString::fromUtf8("tab_map"));
@@ -1023,6 +1027,7 @@ public:
         comba_2canny_ks->setCurrentText(QApplication::translate("MainWindow", "3", nullptr));
         cb_enhancement->setText(QApplication::translate("MainWindow", "NightBoost", nullptr));
         cb_laplacian->setText(QApplication::translate("MainWindow", "Laplacian", nullptr));
+        cb_decompressed->setText(QApplication::translate("MainWindow", "Decompressed", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_cv), QApplication::translate("MainWindow", "CV", nullptr));
         tbw_sub->setTabText(tbw_sub->indexOf(tab_map), QApplication::translate("MainWindow", "Map", nullptr));
         gb_baseInfo->setTitle(QApplication::translate("MainWindow", "  NICar INFO", nullptr));

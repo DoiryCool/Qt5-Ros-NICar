@@ -32,6 +32,8 @@ mainWindow::mainWindow(void)
     QObject::connect(ui->bt_clearRun, SIGNAL(clicked(void)), this, SLOT(clear_li_terminal(void)));
     QObject::connect(cmdHandle, SIGNAL(readyReadStandardError()), this, SLOT(terminal_output()));
     QObject::connect(cmdHandle, SIGNAL(readyReadStandardOutput()), this, SLOT(terminal_output()));
+    QObject::connect(decompressedCommand, SIGNAL(readyReadStandardError()), this, SLOT(terminal_output()));
+    QObject::connect(decompressedCommand, SIGNAL(readyReadStandardOutput()), this, SLOT(terminal_output()));
 
     QObject::connect(&qnode, SIGNAL(sendInfoMes(QString)), this, SLOT(showRosMes(QString)));
     QObject::connect(&qnode, SIGNAL(sendImage(QImage)), this, SLOT(updateImage(QImage)));
@@ -46,6 +48,7 @@ mainWindow::mainWindow(void)
     QObject::connect(ui->cb_2canny, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
     QObject::connect(ui->cb_enhancement, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
     QObject::connect(ui->cb_laplacian, SIGNAL(clicked(void)), this, SLOT(slot_imageProChecked(void)));
+    QObject::connect(ui->cb_decompressed, SIGNAL(clicked(void)), this, SLOT(imageDecompressed(void)));
 
     QObject::connect(ui->hs_2binary_threshold, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
     QObject::connect(ui->hs_2binary_maxval, SIGNAL(valueChanged(int)), this, SLOT(slot_imageProChecked(void)));
@@ -91,6 +94,7 @@ void mainWindow::windowInit()
     ui->comba_imageTopics->addItem(QString("%1   (%2)").arg("LocalCamera(0)", "Mat"));
 
     cmdHandle = new QProcess;
+    decompressedCommand = new QProcess;
 }
 
 void mainWindow::connectToMaster(void)
@@ -131,8 +135,6 @@ void mainWindow::connectToMaster(void)
             ui->li_ipAdd->setText(currentRosIp);
             ui->li_ipPort->setText(currentPort);
             status = true;
-            QString cmd = "rosrun image_transport republish compressed in:=/camera raw out:=camera/lowBandWidth";
-            cmdHandle->write(cmd.toLocal8Bit() + "\n");
             initTopicList();
         }
         else
@@ -238,7 +240,6 @@ void mainWindow::saveValues(void)
 void mainWindow::runComand(void)
 {
     cmdHandle->write(ui->li_Terminal->text().toLocal8Bit() + "\n");
-    terminal_info(QString::number(cmdHandle->processId()));
     ui->li_Terminal->clear();
 }
 
@@ -421,6 +422,14 @@ void mainWindow::slot_imageProChecked(void)
     }
 }
 
+void mainWindow::imageDecompressed(void)
+{
+
+    decompressedCommand->start("bash");
+    QString cmd = "rosrun image_transport republish compressed in:=/camera raw out:=camera/lowBandWidth";
+    decompressedCommand->write(cmd.toLocal8Bit() + "\n");
+}
+
 void mainWindow::slot_bt_saveImg_clicked(void)
 {
     if (imageManager.saveImage(qnode.getPicture()))
@@ -453,4 +462,16 @@ void mainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
     QMainWindow::keyPressEvent(event);
+}
+
+mainWindow::~mainWindow(void)
+{
+    qint64 pid = QCoreApplication::applicationPid();
+    // qDebug() << pid;
+    // qDebug() << decompressedCommand->pid();
+    // kill(decompressedCommand->pid(), 15);
+    decompressedCommand->kill();
+    kill(pid, SIGINT);
+    decompressedCommand->~QProcess();
+    cmdHandle->~QProcess();
 }

@@ -14,6 +14,8 @@
 #include <cstdlib>
 #include <fstream>
 #include <jsoncpp/json/json.h>
+#include <signal.h>
+#include <unistd.h>
 //
 #include "socketCommunication.h"
 #include "../ui/ui_mainWindow.h"
@@ -57,10 +59,12 @@ private:
     qNode qnode;
     imagePro imageManager;
     QProcess * cmdHandle;
-
+    QProcess * decompressedCommand;
+    QProcess * killNode = new QProcess;
     
 public:
     mainWindow(void);
+    ~mainWindow(void);
     void readSettings(void);
     void windowInit(void);
     bool terminal_info(QString);
@@ -83,6 +87,7 @@ public slots:
     void updateImage(QImage);
     void slot_bt_play_clicked(void);
     void playLocalCamera(void);
+    void imageDecompressed(void);
     //topicLists
     void slot_bt_refreshTop_clicked(void);
     //orientation
