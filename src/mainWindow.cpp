@@ -134,7 +134,7 @@ void mainWindow::connectToMaster(void)
             ui->bt_connectR->setText("Disconnect");
             ui->li_ipAdd->setText(currentRosIp);
             ui->li_ipPort->setText(currentPort);
-            status = true;
+            m_rosStatus = true;
             initTopicList();
         }
         else
@@ -184,7 +184,7 @@ void mainWindow::initTopicList()
 // connected to ros
 void mainWindow::bt_connectR_clicked(void)
 {
-    if (status == false)
+    if (m_rosStatus == false)
     {
         connectToMaster();
     }
@@ -198,7 +198,7 @@ void mainWindow::bt_connectR_clicked(void)
         terminal_info("Disconnected!");
         ui->bt_connectR->setText("Connect");
         ui->lt_topics->clear();
-        status = false;
+        m_rosStatus = false;
     }
 }
 
