@@ -107,7 +107,7 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
                 cv::Canny(des, des, img._cannyConfig.lowThreshold, img._cannyConfig.highThreshold, img._cannyConfig.Kernel_size);
                 break;
             case _nightBoost_V:
-                des = des = imageManager.logEnhance(des);
+                des = imageManager.logEnhance(des);
                 break;
             case _laplacian_V:
                 des = imageManager.Laplacian(des);
