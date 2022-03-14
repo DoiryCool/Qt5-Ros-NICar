@@ -1,13 +1,13 @@
 #ifndef __ROS_NODE_H_
 #define __ROS_NODE_H_
-// QT
+// Qt5 LIbraries
 #include <QString>
 #include <QObject>
 #include <QMap>
 #include <QMetaType>
 #include <QVariant>
 #include <QThread>
-// ROS
+// Ros Libraries
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <sensor_msgs/Imu.h>
@@ -15,9 +15,9 @@
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
-// std
+// std Libraries
 #include <string>
-// cv-utils
+// CV-utils
 #include "image_process.hpp"
 
 static QVector<int> imageVector;

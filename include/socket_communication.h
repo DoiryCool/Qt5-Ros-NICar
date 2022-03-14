@@ -1,5 +1,5 @@
-#ifndef __SOCKETCOMMUNICATION_H
-#define __SOCKETCOMMUNICATION_H
+#ifndef __SOCKET_COMMUNICATION_H
+#define __SOCKET_COMMUNICATION_H
 
 #include <sys/types.h>
 #include <sys/socket.h>

@@ -1,3 +1,10 @@
+/***********************************************
+ *            Copyright(C), 2022, 
+ * Version:         1.0.0
+ * Auther:          顾俊玮
+ * Date             2022/3/14
+ * Description:   Ros Control System
+ * ********************************************/
 #include <QApplication>
 #include <string.h>
 #include "../include/mainWindow.h"

@@ -1,4 +1,4 @@
-#include "../include/socketCommunication.h"
+#include "../include/socket_communication.h"
 #include <iostream>
 #include <QDebug>
 #include <QString>

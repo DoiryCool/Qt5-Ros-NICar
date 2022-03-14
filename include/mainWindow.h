@@ -18,7 +18,7 @@
 #include <unistd.h>
 #include <boost/process.hpp>
 //
-#include "socketCommunication.h"
+#include "socket_communication.h"
 #include "../ui/ui_mainWindow.h"
 #include "ros_node.h"
 #include "image_process.hpp"
