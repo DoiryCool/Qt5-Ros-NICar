@@ -1,9 +1,12 @@
 #ifndef __IMAGE_PROCESS_HPP_
 #define __IMAGE_PROCESS_HPP_
 
+#include <vector>
+
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/opencv.hpp>
+
 #include <QImage>
 
 #define _2Gray_V 1
@@ -59,8 +62,7 @@ public:
     cv::Mat logEnhance(cv::Mat);
     //utils
     QImage Mat2QImage(cv::Mat const &);
-
 };
 
 
-#endif
+#endif // __IMAGE_PROCESS_HPP_

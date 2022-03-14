@@ -191,6 +191,7 @@ void mainWindow::bt_connectR_clicked(void)
     else
     {
         ui->statusColor->setStyleSheet(QString::fromUtf8("background-color:rgb(164, 0, 0)"));
+        qnode.~RosNode();
         ui->lb_status->setText("Offline");
         ui->bt_sendM->setEnabled(false);
         ui->li_ipAdd->setReadOnly(false);
@@ -313,7 +314,7 @@ void mainWindow::slot_bt_play_clicked(void)
         // LocalCamera(0)
         if (ui->comba_imageTopics->currentText().contains("LocalCamera"))
         {
-            std::thread th2(&mainWindow::playLocalCamera, this);
+            std::thread th2(&mainWindow::playOtherCamera, this);
             th2.join();
         }
         else
@@ -331,20 +332,23 @@ void mainWindow::slot_bt_play_clicked(void)
     }
 }
 
-void mainWindow::playLocalCamera(void)
+void mainWindow::playOtherCamera(void)
 {
     if (!capture.open(0))
     {
         terminal_info("Error 2001: Camera open failed! Is it connected?");
         return;
     }
-    cv::Mat gatImg;
-    while (ui->bt_playCam->text() == "Cancel")
+    else
     {
-        capture >> gatImg;
-        cv::cvtColor(gatImg, gatImg, CV_BGR2RGB);
-        QImage showImg = imageManager.Mat2QImage(gatImg);
-        ui->lb_camImage->setPixmap(QPixmap::fromImage(showImg).scaled(ui->lb_camImage->width(), ui->lb_camImage->height()));
+        cv::Mat gatImg;
+        while (ui->bt_playCam->text() == "Cancel")
+        {
+            capture >> gatImg;
+            cv::cvtColor(gatImg, gatImg, CV_BGR2RGB);
+            QImage showImg = imageManager.Mat2QImage(gatImg);
+            ui->lb_camImage->setPixmap(QPixmap::fromImage(showImg).scaled(ui->lb_camImage->width(), ui->lb_camImage->height()));
+        }
     }
     capture.release();
 }
@@ -424,7 +428,6 @@ void mainWindow::slot_imageProChecked(void)
 
 void mainWindow::imageDecompressed(void)
 {
-
     decompressedCommand->start("bash");
     QString cmd = "rosrun image_transport republish compressed in:=/camera raw out:=camera/lowBandWidth";
     decompressedCommand->write(cmd.toLocal8Bit() + "\n");
@@ -464,27 +467,9 @@ void mainWindow::keyPressEvent(QKeyEvent *event)
     QMainWindow::keyPressEvent(event);
 }
 
-bool mainWindow::startProcess(std::string p_name){
-    std::vector<std::string> args { "-c", "ps aux 2>&1" };
-    bp::ipstream out;
-    bp::child c(bp::search_path("sh"), args, bp::std_out > out);
-
-    for (std::string line; c.running() && std::getline(out, line);) {
-        if (line.find(p_name) != std::string::npos) {
-            return true;
-        }
-    }
-    c.wait();
-
-    return false;
-}
-
 mainWindow::~mainWindow(void)
 {
     qint64 pid = QCoreApplication::applicationPid();
-    startProcess("ls");
-    qDebug() << pid;
-    // qDebug() << decompressedCommand->pid();
     // kill(decompressedCommand->pid(), 15);
     decompressedCommand->kill();
     kill(pid, SIGINT);

@@ -120,7 +120,7 @@ void RosNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     }
     catch (cv_bridge::Exception &e)
     {
-        emit sendTemperature("Get Image Failed!");
+        emit sendTemperature("Error 1002 : Get Image Failed!");
     }
 }
 

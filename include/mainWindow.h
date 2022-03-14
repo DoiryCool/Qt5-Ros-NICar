@@ -89,7 +89,7 @@ public slots:
     //Image
     void updateImage(QImage);
     void slot_bt_play_clicked(void);
-    void playLocalCamera(void);
+    void playOtherCamera(void);
     void imageDecompressed(void);
     //topicLists
     void slot_bt_refreshTop_clicked(void);
