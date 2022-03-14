@@ -1,5 +1,5 @@
-#ifndef __IMAGEPRO_HPP_
-#define __IMAGEPRO_HPP_
+#ifndef __IMAGE_PROCESS_HPP_
+#define __IMAGE_PROCESS_HPP_
 
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -45,13 +45,13 @@ struct imgConfig
     _2canny _cannyConfig;
 };
 
-class imagePro
+class ImageProcess
 {
 public:
     bool imageProcessVectorAdd(int);
     bool imageProcessVectorDelete(int);
     QVector<int> returnImageProcessVector(void);
-    imagePro(void);
+    ImageProcess(void);
     //file
     bool saveImage(cv::Mat const &);
     //enhancePro

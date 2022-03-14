@@ -1,6 +1,6 @@
-#include "../include/qNode.h"
+#include "../include/ros_node.h"
 
-qNode::qNode(void)
+RosNode::RosNode(void)
 {
     qRegisterMetaType<QVariant>("QVariant");
     if (ros::isStarted())
@@ -11,7 +11,7 @@ qNode::qNode(void)
     wait();
 }
 
-bool qNode::nodeInit(const std::string &master_url, const std::string &host_url)
+bool RosNode::nodeInit(const std::string &master_url, const std::string &host_url)
 {
     std::map<std::string, std::string> remappings;
     remappings["__master"] = master_url;
@@ -31,26 +31,26 @@ bool qNode::nodeInit(const std::string &master_url, const std::string &host_url)
     return true;
 }
 
-void qNode::topicsManager(void)
+void RosNode::topicsManager(void)
 {
     ros::NodeHandle nh;
-    imu_sub = nh.subscribe<sensor_msgs::Imu>("imu/data", 100, &qNode::imuCallback, this);
-    temper_sub = nh.subscribe<sensor_msgs::Temperature>("temperature", 100, &qNode::tempCallback, this);
+    imu_sub = nh.subscribe<sensor_msgs::Imu>("imu/data", 100, &RosNode::imuCallback, this);
+    temper_sub = nh.subscribe<sensor_msgs::Temperature>("temperature", 100, &RosNode::tempCallback, this);
 }
 
-void qNode::sub_image(QString top_name)
+void RosNode::sub_image(QString top_name)
 {
     ros::NodeHandle n;
     image_transport::ImageTransport it_(n);
-    image_sub = it_.subscribe(top_name.toStdString(), 100, &qNode::imageCallback, this);
+    image_sub = it_.subscribe(top_name.toStdString(), 100, &RosNode::imageCallback, this);
 }
 
-void qNode::sub_stop_image()
+void RosNode::sub_stop_image()
 {
     image_sub.shutdown();
 }
 
-void qNode::run()
+void RosNode::run()
 {
     ros::Duration initDur(0.1);
     while (ros::ok())
@@ -62,7 +62,7 @@ void qNode::run()
     Q_EMIT rosShutdown();
 }
 
-void qNode::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
+void RosNode::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
 {
     currentImu = *msg;
     imuMsg imuData;
@@ -83,7 +83,7 @@ void qNode::imuCallback(const sensor_msgs::Imu::ConstPtr &msg)
     emit sendImu(vImu);
 }
 
-void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
+void RosNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
     try
     {
@@ -124,14 +124,14 @@ void qNode::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     }
 }
 
-void qNode::tempCallback(const sensor_msgs::Temperature::ConstPtr &temp)
+void RosNode::tempCallback(const sensor_msgs::Temperature::ConstPtr &temp)
 {
     currentTemp = *temp;
     QString tempVal = QString::number(currentTemp.temperature);
     emit sendTemperature(tempVal);
 }
 
-QMap<QString, QString> qNode::get_topic_list()
+QMap<QString, QString> RosNode::get_topic_list()
 {
     ros::master::V_TopicInfo topic_list;
     ros::master::getTopics(topic_list);
@@ -143,12 +143,12 @@ QMap<QString, QString> qNode::get_topic_list()
     return res;
 }
 
-cv::Mat qNode::getPicture(void)
+cv::Mat RosNode::getPicture(void)
 {
     return cv_ptr->image;
 }
 
-qNode::~qNode(void)
+RosNode::~RosNode(void)
 {
     if (ros::isStarted())
     {

@@ -16,13 +16,15 @@
 #include <jsoncpp/json/json.h>
 #include <signal.h>
 #include <unistd.h>
+#include <boost/process.hpp>
 //
 #include "socketCommunication.h"
 #include "../ui/ui_mainWindow.h"
-#include "qNode.h"
-#include "imagePro.hpp"
+#include "ros_node.h"
+#include "image_process.hpp"
 
 using std::ifstream;
+namespace bp = boost::process;
 
 #endif
 
@@ -34,13 +36,13 @@ private:
     QScreen *screen = QGuiApplication::primaryScreen();
     QRect screenRect = screen->availableGeometry();
 
-    int sizeWidth = screenRect.width() * 0.718;
-    int sizeHeight = screenRect.height() * 0.718;
-    int btWidth1 = sizeWidth * 0.04;
-    int btHeight1 = sizeHeight * 0.04;
-    int lbWidth1 = sizeWidth * 0.04;
-    int lbHeight1 = sizeHeight * 0.04;
-    bool status = false;
+    int m_sizeWidth = screenRect.width() * 0.718;
+    int m_sizeHeight = screenRect.height() * 0.718;
+    int m_btWidth1 = m_sizeWidth * 0.04;
+    int m_btHeight1 = m_sizeHeight * 0.04;
+    int m_lbWidth1 = m_sizeWidth * 0.04;
+    int m_lbHeight1 = m_sizeHeight * 0.04;
+    bool m_rosStatus = false;
     cv::VideoCapture capture;
 
     //settings
@@ -56,8 +58,8 @@ private:
     socketCommunication socketIns;
 
     Ui::MainWindow* ui;
-    qNode qnode;
-    imagePro imageManager;
+    RosNode qnode;
+    ImageProcess imageManager;
     QProcess * cmdHandle;
     QProcess * decompressedCommand;
     QProcess * killNode = new QProcess;
@@ -65,6 +67,7 @@ private:
 public:
     mainWindow(void);
     ~mainWindow(void);
+    bool startProcess(std::string);
     void readSettings(void);
     void windowInit(void);
     bool terminal_info(QString);
@@ -93,7 +96,7 @@ public slots:
     //orientation
     void updateImu(QVariant);
     void updateTemperature(QString);
-    //imagePro
+    //ImageProcess
     void slot_imageProChecked(void);
     void slot_bt_saveImg_clicked(void);
     //terminal

@@ -1,5 +1,5 @@
-#ifndef __QNODE_H_
-#define __QNODE_H_
+#ifndef __ROS_NODE_H_
+#define __ROS_NODE_H_
 // QT
 #include <QString>
 #include <QObject>
@@ -18,7 +18,7 @@
 // std
 #include <string>
 // cv-utils
-#include "imagePro.hpp"
+#include "image_process.hpp"
 
 static QVector<int> imageVector;
 struct imuVector
@@ -39,7 +39,7 @@ struct imuMsg
 Q_DECLARE_METATYPE(imuVector)
 Q_DECLARE_METATYPE(imuMsg)
 
-class qNode : public QThread
+class RosNode : public QThread
 {
     Q_OBJECT
 private:
@@ -54,11 +54,11 @@ private:
     image_transport::Subscriber image_sub;
     cv_bridge::CvImagePtr cv_ptr;
     cv::Mat des;
-    imagePro imageManager;
+    ImageProcess imageManager;
 
 public:
-    qNode(void);
-    ~qNode(void);
+    RosNode(void);
+    ~RosNode(void);
     bool nodeInit(const std::string &master_url, const std::string &host_url);
     void topicsManager();
     void run();

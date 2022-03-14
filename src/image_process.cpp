@@ -1,11 +1,11 @@
-#include "../include/imagePro.hpp"
+#include "../include/image_process.hpp"
 
-imagePro::imagePro(void)
+ImageProcess::ImageProcess(void)
 {
 }
 
 // file
-bool imagePro::saveImage(cv::Mat const &src)
+bool ImageProcess::saveImage(cv::Mat const &src)
 {
     __imgSaveDir = "../Images/";
     __imgSaveDir.append(__imgSaveNameRule);
@@ -14,7 +14,7 @@ bool imagePro::saveImage(cv::Mat const &src)
 }
 
 // enhancePro
-cv::Mat imagePro::logEnhance(cv::Mat src)
+cv::Mat ImageProcess::logEnhance(cv::Mat src)
 {
     cv::Mat imageLog(src.size(), CV_32FC3);
     for (int i = 0; i < src.rows; i++)
@@ -31,7 +31,7 @@ cv::Mat imagePro::logEnhance(cv::Mat src)
     return imageLog;
 }
 
-cv::Mat imagePro::Laplacian(cv::Mat src)
+cv::Mat ImageProcess::Laplacian(cv::Mat src)
 {
     cv::Mat LaplacianImg;
     cv::Mat kernel = (cv::Mat_<float>(3, 3) << 0, -1, 0, 0, 5, 0, 0, -1, 0);
@@ -40,7 +40,7 @@ cv::Mat imagePro::Laplacian(cv::Mat src)
 }
 
 // utils
-QImage imagePro::Mat2QImage(cv::Mat const &src)
+QImage ImageProcess::Mat2QImage(cv::Mat const &src)
 {
     QImage dest(src.cols, src.rows, QImage::Format_ARGB32);
     const float scale = 255.0;
@@ -98,7 +98,7 @@ QImage imagePro::Mat2QImage(cv::Mat const &src)
     return dest;
 }
 
-bool imagePro::imageProcessVectorAdd(int number)
+bool ImageProcess::imageProcessVectorAdd(int number)
 {
     QVector<int>::iterator itr = staticImageProcessVector.begin();
     while (itr != staticImageProcessVector.end())
@@ -116,7 +116,7 @@ bool imagePro::imageProcessVectorAdd(int number)
     return true;
 }
 
-bool imagePro::imageProcessVectorDelete(int number)
+bool ImageProcess::imageProcessVectorDelete(int number)
 {
     QVector<int>::iterator itr = staticImageProcessVector.begin();
     while (itr != staticImageProcessVector.end())
@@ -133,6 +133,6 @@ bool imagePro::imageProcessVectorDelete(int number)
     return true;
 }
 
-QVector<int> imagePro::returnImageProcessVector(void){
+QVector<int> ImageProcess::returnImageProcessVector(void){
     return staticImageProcessVector;
 }

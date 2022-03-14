@@ -464,10 +464,26 @@ void mainWindow::keyPressEvent(QKeyEvent *event)
     QMainWindow::keyPressEvent(event);
 }
 
+bool mainWindow::startProcess(std::string p_name){
+    std::vector<std::string> args { "-c", "ps aux 2>&1" };
+    bp::ipstream out;
+    bp::child c(bp::search_path("sh"), args, bp::std_out > out);
+
+    for (std::string line; c.running() && std::getline(out, line);) {
+        if (line.find(p_name) != std::string::npos) {
+            return true;
+        }
+    }
+    c.wait();
+
+    return false;
+}
+
 mainWindow::~mainWindow(void)
 {
     qint64 pid = QCoreApplication::applicationPid();
-    // qDebug() << pid;
+    startProcess("ls");
+    qDebug() << pid;
     // qDebug() << decompressedCommand->pid();
     // kill(decompressedCommand->pid(), 15);
     decompressedCommand->kill();
